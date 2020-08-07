@@ -17,6 +17,7 @@ module.exports = {
     extensions: ['.ts', 'tsx', '.js']
   },
   devtool: process.env.NODE_ENV === 'production' ? false : 'inline-source-map',
+  mode: 'development',
   devServer: {
     contentBase: './dist'
   },
