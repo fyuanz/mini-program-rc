@@ -1,10 +1,14 @@
 import { ScriptEvent } from '../event/event';
+import UID from '../utils/uid';
+import DisplayProps from '../geom/displayProps';
+import Rectangle from '../geom/rectangle';
+import Matrix2D from '../geom/matrix2d';
 
 const _eventListeners: unique symbol = Symbol('eventListeners');
 const _captureEventListeners: unique symbol = Symbol('captureEventListeners');
 
 interface EventListeners {
-  [key: string]: Array<{ listener: (event: ScriptEvent) => void; once?: boolean }>;
+  [x: string]: Array<{ listener: (event: ScriptEvent) => void; once?: boolean }>;
 }
 
 interface EventOptions {
@@ -12,22 +16,175 @@ interface EventOptions {
   once?: boolean;
 }
 
+export interface Shadow {
+  color: string;
+  offsetX: number;
+  offsetY: number;
+  blur: number;
+}
+
 export default class Node {
-  parent: Node | null;
+  parent: this | null;
   [_eventListeners]: EventListeners;
   [_captureEventListeners]: EventListeners;
+  id: number;
+
+  x: number;
+  y: number;
+  scaleX: number;
+  scaleY: number;
+  rotation: number;
+  skewX: number;
+  skewY: number;
+  regX: number;
+  regY: number;
+  alpha: number;
+  visible: boolean;
+
+  shadow: Shadow | null;
+  mask: any;
+
+  _props: DisplayProps;
+  _rectangle: Rectangle;
+  _bounds: Rectangle | null;
+
+  compositeOperation: string | null;
+
+  hitBox: boolean;
+  ignoreHit: boolean;
+
+  ___instanceof!: string;
 
   constructor() {
     this[_eventListeners] = {};
     this[_captureEventListeners] = {};
     this.parent = null;
+    this.id = UID.get();
+
+    this.x = 0;
+    this.y = 0;
+
+    this.scale = 1;
+    this.scaleX = 1;
+    this.scaleY = 1;
+    this.rotation = 0;
+    this.skewX = 0;
+    this.skewY = 0;
+    this.regX = 0;
+    this.regY = 0;
+    this.alpha = 1;
+    this.visible = true;
+
+    this.shadow = null;
+    this.mask = null;
+
+    this._props = new DisplayProps();
+    this._rectangle = new Rectangle();
+    this._bounds = null;
+
+    this.compositeOperation = null;
+
+    this.hitBox = false;
+    this.ignoreHit = false;
+  }
+
+  get stage() {
+    let o = this;
+    while (o.parent) {
+      o = o.parent;
+    }
+    if (o.___instanceof === 'Stage') return o;
+    return null;
+  }
+
+  get scale() {
+    return this.scaleX;
+  }
+
+  set scale(scale) {
+    this.scaleX = this.scaleY = scale;
+  }
+
+  isVisible() {
+    return this.visible && this.alpha > 0 && this.scaleX !== 0 && this.scaleY !== 0;
+  }
+
+  clip(graphics: any) {
+    this.mask = graphics;
+  }
+
+  unclip() {
+    this.mask = null;
+  }
+
+  setTransform(
+    x: number,
+    y: number,
+    scaleX: number,
+    scaleY: number,
+    rotation: number,
+    skewX: number,
+    skewY: number,
+    regX: number,
+    regY: number
+  ) {
+    this.x = x || 0;
+    this.y = y || 0;
+    this.scaleX = scaleX == null ? 1 : scaleX;
+    this.scaleY = scaleY == null ? 1 : scaleY;
+    this.rotation = rotation || 0;
+    this.skewX = skewX || 0;
+    this.skewY = skewY || 0;
+    this.regX = regX || 0;
+    this.regY = regY || 0;
+    return this;
+  }
+
+  getMatrix(matrix: any) {
+    let o = this;
+    let mtx = matrix || new Matrix2D();
+    mtx.identity();
+    return mtx.appendTransform(
+      o.x,
+      o.y,
+      o.scaleX,
+      o.scaleY,
+      o.rotation,
+      o.skewX,
+      o.skewY,
+      o.regX,
+      o.regY
+    );
+  }
+
+  getConcatenatedMatrix(matrix: any) {
+    let o = this;
+    let mtx = this.getMatrix(matrix);
+    while (o.parent) {
+      mtx.prependMatrix(o.getMatrix(o._props.matrix));
+      o = o.parent;
+    }
+    return mtx;
+  }
+
+  getConcatenatedDisplayProps(props?: DisplayProps) {
+    props = props ? props.identity() : new DisplayProps();
+    let o: this | null = this;
+    let mtx = o.getMatrix(props.matrix);
+    do {
+      props.prepend(o.visible, o.alpha, o.shadow, o.compositeOperation);
+      if (o != this) {
+        mtx.prependMatrix(o.getMatrix(o._props.matrix));
+      }
+    } while ((o = o.parent));
+    return props;
   }
 
   addEventListener(
     type: string,
     listener: (event: ScriptEvent) => void,
     options?: EventOptions | boolean
-  ): this {
+  ) {
     if (typeof options === 'boolean') options = { capture: options };
     const { capture, once } = options || {};
     const eventListeners = capture ? _captureEventListeners : _eventListeners;
@@ -40,7 +197,7 @@ export default class Node {
     type: string,
     listener: (event: ScriptEvent) => void,
     options?: EventOptions | boolean
-  ): this {
+  ) {
     if (typeof options === 'boolean') options = { capture: options };
     const { capture } = options || {};
     const eventListeners = capture ? _captureEventListeners : _eventListeners;
@@ -61,7 +218,7 @@ export default class Node {
   dispatchEvent(event: ScriptEvent) {
     event.target = this;
     const type = event.type;
-    const elements: Array<Node> = [this];
+    const elements = [this];
     let parent = this.parent;
     while (event.bubbles && parent) {
       elements.push(parent);

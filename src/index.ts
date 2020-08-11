@@ -1,38 +1,15 @@
 import Render from './render/index';
-import State from './node/state';
-import Event from './event/event';
+import Stage from './node/stage';
+import Group from './node/group';
+import Rect from './node/shape/rect';
+import Circle from './node/shape/circle';
 
-const mprc: Object = {
+const mprc = {
   Render,
-  State
+  Stage,
+  Group,
+  Rect,
+  Circle
 };
-
-const state = new State();
-state.addEventListener(
-  'click',
-  () => {
-    console.log('state click e1');
-  },
-  true
-);
-
-const state2 = new State();
-state2.addEventListener(
-  'click',
-  () => {
-    console.log('state2 click e1');
-  },
-  true
-);
-
-state2.parent = state;
-
-
-
-const e1 = new Event();
-
-e1.type = 'click';
-
-state2.dispatchEvent(e1);
 
 export default mprc;

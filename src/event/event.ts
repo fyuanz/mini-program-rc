@@ -10,8 +10,8 @@ export interface ScriptEvent {
   type: string;
   bubbles: boolean;
   originalEvent: any;
-  target: Node;
   cancelBubble: boolean;
+  target: Node;
   stopPropagation: () => void;
 }
 
