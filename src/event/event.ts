@@ -5,8 +5,8 @@ const _bubbles: unique symbol = Symbol('bubbles');
 const _originalEvent: unique symbol = Symbol('_originalEvent');
 
 export interface ScriptEvent {
-  stageX: number | null;
-  stageY: number | null;
+  stageX: number;
+  stageY: number;
   type: string;
   bubbles: boolean;
   originalEvent: any;
@@ -16,8 +16,8 @@ export interface ScriptEvent {
 }
 
 export default class Event implements ScriptEvent {
-  stageX: number | null;
-  stageY: number | null;
+  stageX!: number;
+  stageY!: number;
   [_type]: string;
   [_bubbles]: boolean;
   [_originalEvent]: any;
@@ -25,8 +25,6 @@ export default class Event implements ScriptEvent {
   target!: Node;
 
   constructor() {
-    this.stageX = null;
-    this.stageY = null;
     this[_type] = '';
     this[_originalEvent] = null;
     this[_bubbles] = true;

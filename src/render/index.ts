@@ -50,6 +50,7 @@ export default class Render {
     mtx = o._props.matrix;
 
     if (mask) {
+      console.log(mask)
       mask.getMatrix(mtx);
       ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
       ctx.beginPath();

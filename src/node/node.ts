@@ -3,6 +3,7 @@ import UID from '../utils/uid';
 import DisplayProps from '../geom/displayProps';
 import Rectangle from '../geom/rectangle';
 import Matrix2D from '../geom/matrix2d';
+import Graphics from '../node/graphics';
 
 const _eventListeners: unique symbol = Symbol('eventListeners');
 const _captureEventListeners: unique symbol = Symbol('captureEventListeners');
@@ -42,7 +43,7 @@ export default class Node {
   visible: boolean;
 
   shadow: Shadow | null;
-  mask: any;
+  mask: Graphics | null;
 
   _props: DisplayProps;
   _rectangle: Rectangle;
@@ -109,7 +110,7 @@ export default class Node {
     return this.visible && this.alpha > 0 && this.scaleX !== 0 && this.scaleY !== 0;
   }
 
-  clip(graphics: any) {
+  clip(graphics: Graphics) {
     this.mask = graphics;
   }
 
@@ -140,29 +141,30 @@ export default class Node {
     return this;
   }
 
-  getMatrix(matrix: any) {
+  getMatrix(matrix: Matrix2D) {
     let o = this;
     let mtx = matrix || new Matrix2D();
-    mtx.identity();
-    return mtx.appendTransform(
-      o.x,
-      o.y,
-      o.scaleX,
-      o.scaleY,
-      o.rotation,
-      o.skewX,
-      o.skewY,
-      o.regX,
-      o.regY
+    return (
+      mtx.identity() &&
+      mtx.appendTransform(
+        o.x,
+        o.y,
+        o.scaleX,
+        o.scaleY,
+        o.rotation,
+        o.skewX,
+        o.skewY,
+        o.regX,
+        o.regY
+      )
     );
   }
 
-  getConcatenatedMatrix(matrix: any) {
-    let o = this;
+  getConcatenatedMatrix(matrix: Matrix2D) {
+    let o: this | null = this;
     let mtx = this.getMatrix(matrix);
-    while (o.parent) {
+    while ((o = o.parent)) {
       mtx.prependMatrix(o.getMatrix(o._props.matrix));
-      o = o.parent;
     }
     return mtx;
   }
@@ -178,6 +180,94 @@ export default class Node {
       }
     } while ((o = o.parent));
     return props;
+  }
+
+  getBounds() {
+    if (this._bounds) {
+      return this._rectangle.copy(this._bounds);
+    }
+    return null;
+  }
+
+  setBounds(x: number | null, y: number, width: number, height: number) {
+    if (x === null) {
+      this._bounds = x;
+      return;
+    }
+    this._bounds = (this._bounds || new Rectangle()).setValues(x, y, width, height);
+  }
+
+  getTransformedBounds() {
+    return this._getBounds();
+  }
+
+  _getBounds(matrix?: Matrix2D, ignoreTransform?: boolean) {
+    return this._transformBounds(this.getBounds(), matrix, ignoreTransform);
+  }
+
+  _transformBounds(bounds: Rectangle | null, matrix: Matrix2D, ignoreTransform?: boolean) {
+    if (!bounds) {
+      return bounds;
+    }
+    let x = bounds.x,
+      y = bounds.y,
+      width = bounds.width,
+      height = bounds.height,
+      mtx = this._props.matrix;
+    mtx = ignoreTransform ? mtx.identity() : this.getMatrix(mtx);
+
+    if (x || y) {
+      mtx.appendTransform(0, 0, 1, 1, 0, 0, 0, -x, -y);
+    }
+    if (matrix) {
+      mtx.prependMatrix(matrix);
+    }
+
+    let x_a = width * mtx.a,
+      x_b = width * mtx.b;
+    let y_c = height * mtx.c,
+      y_d = height * mtx.d;
+    let tx = mtx.tx,
+      ty = mtx.ty;
+
+    let minX = tx,
+      maxX = tx,
+      minY = ty,
+      maxY = ty;
+
+    if ((x = x_a + tx) < minX) {
+      minX = x;
+    } else if (x > maxX) {
+      maxX = x;
+    }
+    if ((x = x_a + y_c + tx) < minX) {
+      minX = x;
+    } else if (x > maxX) {
+      maxX = x;
+    }
+    if ((x = y_c + tx) < minX) {
+      minX = x;
+    } else if (x > maxX) {
+      maxX = x;
+    }
+
+    if ((y = x_b + ty) < minY) {
+      minY = y;
+    } else if (y > maxY) {
+      maxY = y;
+    }
+    if ((y = x_b + y_d + ty) < minY) {
+      minY = y;
+    } else if (y > maxY) {
+      maxY = y;
+    }
+    if ((y = y_d + ty) < minY) {
+      minY = y;
+    } else if (y > maxY) {
+      maxY = y;
+    }
+
+    return bounds.setValues(minX, minY, maxX - minX, maxY - minY);
   }
 
   addEventListener(
