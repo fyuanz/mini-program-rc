@@ -1,0 +1,7 @@
+<!-- index.wxml -->
+<view class="container">
+  <view class='container'>
+    <canvas bindtouchend='touchend' bindtouchmove='touchmove' bindtouchstart='touchstart' class='canvas' id='canvas' style='width:{{width}}px;height:{{height}}px' type='2d'></canvas>
+    <canvas class='hit-canvas' id='hitCanvas' style='width:{{width}}px;height:{{height}}px' type='2d'></canvas>
+  </view>
+</view>

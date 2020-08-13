@@ -7,6 +7,8 @@ const _originalEvent: unique symbol = Symbol('_originalEvent');
 export interface ScriptEvent {
   stageX: number;
   stageY: number;
+  dx: number;
+  dy: number;
   type: string;
   bubbles: boolean;
   originalEvent: any;
@@ -18,6 +20,8 @@ export interface ScriptEvent {
 export default class Event implements ScriptEvent {
   stageX!: number;
   stageY!: number;
+  dx!: number;
+  dy!: number;
   [_type]: string;
   [_bubbles]: boolean;
   [_originalEvent]: any;

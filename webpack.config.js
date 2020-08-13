@@ -26,7 +26,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'wchatMiniProgramsCanvasRender'
+      title: 'wchatMiniProgramsRenderCanvas'
     })
   ],
   output: {

@@ -270,6 +270,14 @@ export default class Node {
     return bounds.setValues(minX, minY, maxX - minX, maxY - minY);
   }
 
+  on(type: string, listener: (event: ScriptEvent) => void, options?: EventOptions | boolean) {
+    this.addEventListener(type, listener, options);
+  }
+
+  off(type: string, listener: (event: ScriptEvent) => void, options?: EventOptions | boolean) {
+    this.removeEventListener(type, listener, options);
+  }
+
   addEventListener(
     type: string,
     listener: (event: ScriptEvent) => void,

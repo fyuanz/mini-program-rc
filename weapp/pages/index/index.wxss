@@ -1,0 +1,13 @@
+/**index.wxss**/
+.canvas {
+  position: relative;
+  border-top: 1px solid orangered;
+}
+
+.hit-canvas {
+  position: relative;
+  /* position: fixed;
+  top: -10000rpx;
+  left: -10000rpx; */
+  border-top: 1px solid orangered;
+}

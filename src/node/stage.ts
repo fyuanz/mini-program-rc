@@ -1,6 +1,7 @@
 import Group from './group';
 import Render from '../render/index';
 import { ScriptEvent } from '../event/event';
+import Event from '../event/event';
 
 class Stage extends Group {
   [x: string]: any;
@@ -65,14 +66,88 @@ class Stage extends Group {
     this._mouseDownY = evt.stageY;
     this.preStageX = evt.stageX;
     this.preStageY = evt.stageY;
-    console.log(obj);
-    // this.__dispatchEvent(obj, evt);
+    this.__dispatchEvent(obj, evt);
+  }
+
+  touchMoveHandler(evt: any) {
+    const p1 = evt.changedTouches[0];
+
+    evt.stageX = Math.round(p1.x * this.scaleX);
+    evt.stageY = Math.round(p1.y * this.scaleY);
+    let obj = this.getObjectUnderPoint(evt);
+    let mockEvt = new Event();
+    mockEvt.stageX = evt.stageX;
+    mockEvt.stageY = evt.stageY;
+    mockEvt.originalEvent = evt;
+
+    if (this.willDragObject) {
+      mockEvt.type = 'drag';
+      mockEvt.dx = mockEvt.stageX - this.preStageX;
+      mockEvt.dy = mockEvt.stageY - this.preStageY;
+      this.preStageX = mockEvt.stageX;
+      this.preStageY = mockEvt.stageY;
+      this.willDragObject.dispatchEvent(mockEvt);
+    }
+
+    if (obj) {
+      if (this._overObject === null) {
+        this._overObject = obj;
+      } else {
+        if (obj.id !== this._overObject.id) {
+          this._overObject = obj;
+        } else {
+          this.__dispatchEvent(obj, evt);
+        }
+      }
+    } else if (this._overObject) {
+      this._overObject = null;
+    }
+  }
+
+  touchEndHandler(evt: any) {
+    const p1 = evt.changedTouches[0];
+
+    evt.stageX = Math.round(p1.x * this.scaleX);
+    evt.stageY = Math.round(p1.y * this.scaleY);
+
+    let obj = this.getObjectUnderPoint(evt);
+    this._mouseUpX = evt.stageX;
+    this._mouseUpY = evt.stageY;
+
+    this.willDragObject = null;
+    this.preStageX = null;
+    this.preStageY = null;
+
+    this.__dispatchEvent(obj, evt);
+
+    if (
+      obj &&
+      Math.abs(this._mouseDownX - this._mouseUpX) < 30 &&
+      Math.abs(this._mouseDownY - this._mouseUpY) < 30
+    ) {
+      let mockEvt = new Event();
+      mockEvt.stageX = evt.stageX;
+      mockEvt.stageY = evt.stageY;
+      mockEvt.originalEvent = evt;
+      mockEvt.type = 'tap';
+      obj.dispatchEvent(mockEvt);
+    }
   }
 
   getObjectUnderPoint(evt: ScriptEvent) {
     const x = evt.stageX;
     const y = evt.stageY;
-    return this._getObjectsUnderPoint(x, y, this.hitCtx);
+    return this._getObjectsUnderPoint(x, y, this.hitCtx) || this;
+  }
+
+  __dispatchEvent(obj: any, evt: any) {
+    if (!obj) return;
+    let mockEvt = new Event();
+    mockEvt.stageX = evt.stageX;
+    mockEvt.stageY = evt.stageY;
+    mockEvt.originalEvent = evt;
+    mockEvt.type = evt.type;
+    obj.dispatchEvent(mockEvt);
   }
 }
 
