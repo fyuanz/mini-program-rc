@@ -867,18 +867,34 @@ var index_1 = __importDefault(__webpack_require__(/*! ./render/index */ "./src/r
 var stage_1 = __importDefault(__webpack_require__(/*! ./node/stage */ "./src/node/stage.ts"));
 var group_1 = __importDefault(__webpack_require__(/*! ./node/group */ "./src/node/group.ts"));
 var bitmap_1 = __importDefault(__webpack_require__(/*! ./node/bitmap */ "./src/node/bitmap.ts"));
+var text_1 = __importDefault(__webpack_require__(/*! ./node/text */ "./src/node/text.ts"));
 var graphics_1 = __importDefault(__webpack_require__(/*! ./node/graphics */ "./src/node/graphics.ts"));
+var shape_1 = __importDefault(__webpack_require__(/*! ./node/shape/shape */ "./src/node/shape/shape.ts"));
 var rect_1 = __importDefault(__webpack_require__(/*! ./node/shape/rect */ "./src/node/shape/rect.ts"));
 var circle_1 = __importDefault(__webpack_require__(/*! ./node/shape/circle */ "./src/node/shape/circle.ts"));
+var rounded_rect_1 = __importDefault(__webpack_require__(/*! ./node/shape/rounded-rect */ "./src/node/shape/rounded-rect.ts"));
+var arrow_path_1 = __importDefault(__webpack_require__(/*! ./node/shape/arrow-path */ "./src/node/shape/arrow-path.ts"));
+var ellipse_1 = __importDefault(__webpack_require__(/*! ./node/shape/ellipse */ "./src/node/shape/ellipse.ts"));
+var polygon_1 = __importDefault(__webpack_require__(/*! ./node/shape/polygon */ "./src/node/shape/polygon.ts"));
+var sector_1 = __importDefault(__webpack_require__(/*! ./node/shape/sector */ "./src/node/shape/sector.ts"));
+var equilateral_polygon_1 = __importDefault(__webpack_require__(/*! ./node/shape/equilateral-polygon */ "./src/node/shape/equilateral-polygon.ts"));
 var utils = __importStar(__webpack_require__(/*! ./utils/util */ "./src/utils/util.ts"));
 var mprc = {
     Render: index_1.default,
     Stage: stage_1.default,
     Group: group_1.default,
     Bitmap: bitmap_1.default,
+    Text: text_1.default,
+    Graphics: graphics_1.default,
+    Shape: shape_1.default,
     Rect: rect_1.default,
     Circle: circle_1.default,
-    Graphics: graphics_1.default,
+    RoundedRect: rounded_rect_1.default,
+    ArrowPath: arrow_path_1.default,
+    Ellipse: ellipse_1.default,
+    Polygon: polygon_1.default,
+    Sector: sector_1.default,
+    EquilateralPolygon: equilateral_polygon_1.default,
     loadImage: utils.loadImage
 };
 exports.default = mprc;
@@ -1694,6 +1710,84 @@ exports.default = Node;
 
 /***/ }),
 
+/***/ "./src/node/shape/arrow-path.ts":
+/*!**************************************!*\
+  !*** ./src/node/shape/arrow-path.ts ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+var ArrowPath = /** @class */ (function (_super) {
+    __extends(ArrowPath, _super);
+    function ArrowPath(path, option) {
+        var _this = _super.call(this) || this;
+        _this.path = path;
+        _this.option = Object.assign({
+            strokeStyle: 'black',
+            lineWidth: 1,
+            headSize: 10
+        }, option);
+        return _this;
+    }
+    ArrowPath.prototype.draw = function () {
+        var path = this.path;
+        this.beginPath();
+        var len = path.length;
+        if (len === 2) {
+            this.drawArrow(path[0].x, path[0].y, path[1].x, path[1].y, 30);
+        }
+        else {
+            this.moveTo(path[0].x, path[0].y);
+            for (var i = 1; i < len - 1; i++) {
+                this.lineTo(path[i].x, path[i].y);
+            }
+            this.drawArrow(path[len - 2].x, path[len - 2].y, path[len - 1].x, path[len - 1].y, 30);
+        }
+        this.stroke();
+    };
+    ArrowPath.prototype.drawArrow = function (fromX, fromY, toX, toY, theta) {
+        var angle = (Math.atan2(fromY - toY, fromX - toX) * 180) / Math.PI, angle1 = ((angle + theta) * Math.PI) / 180, angle2 = ((angle - theta) * Math.PI) / 180, hs = this.option.headSize, topX = hs * Math.cos(angle1), topY = hs * Math.sin(angle1), botX = hs * Math.cos(angle2), botY = hs * Math.sin(angle2);
+        var arrowX = fromX - topX, arrowY = fromY - topY;
+        this.moveTo(arrowX, arrowY);
+        this.moveTo(fromX, fromY);
+        this.lineTo(toX, toY);
+        arrowX = toX + topX;
+        arrowY = toY + topY;
+        this.moveTo(arrowX, arrowY);
+        this.lineTo(toX, toY);
+        arrowX = toX + botX;
+        arrowY = toY + botY;
+        this.lineTo(arrowX, arrowY);
+        this.strokeStyle(this.option.strokeStyle);
+        this.lineWidth(this.option.lineWidth);
+    };
+    return ArrowPath;
+}(shape_1.default));
+exports.default = ArrowPath;
+
+
+/***/ }),
+
 /***/ "./src/node/shape/circle.ts":
 /*!**********************************!*\
   !*** ./src/node/shape/circle.ts ***!
@@ -1752,6 +1846,235 @@ exports.default = Circle;
 
 /***/ }),
 
+/***/ "./src/node/shape/ellipse.ts":
+/*!***********************************!*\
+  !*** ./src/node/shape/ellipse.ts ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+var Ellipse = /** @class */ (function (_super) {
+    __extends(Ellipse, _super);
+    function Ellipse(width, height, option) {
+        var _this = _super.call(this) || this;
+        _this.option = option || {};
+        _this.width = width;
+        _this.height = height;
+        return _this;
+    }
+    Ellipse.prototype.draw = function () {
+        var w = this.width;
+        var h = this.height;
+        var k = 0.5522848;
+        var ox = (w / 2) * k;
+        var oy = (h / 2) * k;
+        var xe = w;
+        var ye = h;
+        var xm = w / 2;
+        var ym = h / 2;
+        this.beginPath();
+        this.moveTo(0, ym);
+        this.bezierCurveTo(0, ym - oy, xm - ox, 0, xm, 0);
+        this.bezierCurveTo(xm + ox, 0, xe, ym - oy, xe, ym);
+        this.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
+        this.bezierCurveTo(xm - ox, ye, 0, ym + oy, 0, ym);
+        if (this.option.strokeStyle) {
+            if (this.option.lineWidth !== undefined) {
+                this.lineWidth(this.option.lineWidth);
+            }
+            this.strokeStyle(this.option.strokeStyle);
+            this.stroke();
+        }
+        if (this.option.fillStyle) {
+            this.fillStyle(this.option.fillStyle);
+            this.fill();
+        }
+    };
+    return Ellipse;
+}(shape_1.default));
+exports.default = Ellipse;
+
+
+/***/ }),
+
+/***/ "./src/node/shape/equilateral-polygon.ts":
+/*!***********************************************!*\
+  !*** ./src/node/shape/equilateral-polygon.ts ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+var EquilateralPolygon = /** @class */ (function (_super) {
+    __extends(EquilateralPolygon, _super);
+    function EquilateralPolygon(num, r, options) {
+        var _this = _super.call(this) || this;
+        _this.num = num;
+        _this.r = r;
+        _this.options = options || {};
+        _this.vertex = [];
+        _this.initVertex();
+        return _this;
+    }
+    EquilateralPolygon.prototype.initVertex = function () {
+        this.vertex.length = [];
+        var num = this.num;
+        var r = this.r;
+        var i, startX, startY, newX, newY;
+        if (num % 2 === 0) {
+            startX = r * Math.cos((2 * Math.PI * 0) / num);
+            startY = r * Math.sin((2 * Math.PI * 0) / num);
+            this.vertex.push([startX, startY]);
+            for (i = 1; i < num; i++) {
+                newX = r * Math.cos((2 * Math.PI * i) / num);
+                newY = r * Math.sin((2 * Math.PI * i) / num);
+                this.vertex.push([newX, newY]);
+            }
+        }
+        else {
+            startX = r * Math.cos((2 * Math.PI * 0) / num - Math.PI / 2);
+            startY = r * Math.sin((2 * Math.PI * 0) / num - Math.PI / 2);
+            this.vertex.push([startX, startY]);
+            for (i = 1; i < num; i++) {
+                newX = r * Math.cos((2 * Math.PI * i) / num - Math.PI / 2);
+                newY = r * Math.sin((2 * Math.PI * i) / num - Math.PI / 2);
+                this.vertex.push([newX, newY]);
+            }
+        }
+    };
+    EquilateralPolygon.prototype.draw = function () {
+        this.beginPath();
+        this.moveTo(this.vertex[0][0], this.vertex[0][1]);
+        for (var i = 1, len = this.vertex.length; i < len; i++) {
+            this.lineTo(this.vertex[i][0], this.vertex[i][1]);
+        }
+        this.closePath();
+        if (this.options.fillStyle) {
+            this.fillStyle(this.options.fillStyle);
+            this.fill();
+        }
+        if (this.options.strokeStyle) {
+            this.strokeStyle(this.options.strokeStyle);
+            if (typeof this.options.lineWidth === 'number') {
+                this.lineWidth(this.options.lineWidth);
+            }
+            this.stroke();
+        }
+    };
+    return EquilateralPolygon;
+}(shape_1.default));
+exports.default = EquilateralPolygon;
+
+
+/***/ }),
+
+/***/ "./src/node/shape/polygon.ts":
+/*!***********************************!*\
+  !*** ./src/node/shape/polygon.ts ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+var Polygon = /** @class */ (function (_super) {
+    __extends(Polygon, _super);
+    function Polygon(vertex, options) {
+        var _this = _super.call(this) || this;
+        _this.vertex = vertex || [];
+        _this.options = options || {};
+        _this.strokeColor = _this.options.strokeColor;
+        _this.fillColor = _this.options.fillColor;
+        return _this;
+    }
+    Polygon.prototype.draw = function () {
+        this.clear().beginPath();
+        this.strokeStyle(this.strokeColor);
+        this.moveTo(this.vertex[0][0], this.vertex[0][1]);
+        for (var i = 1, len = this.vertex.length; i < len; i++) {
+            this.lineTo(this.vertex[i][0], this.vertex[i][1]);
+        }
+        this.closePath();
+        // 路径闭合
+        //  if (this.options.strokeStyle) {
+        //    this.strokeStyle = strokeStyle;
+        // this.lineWidth(this.options.width);
+        // this.lineJoin('round');
+        // this.stroke();
+        //  }
+        if (this.strokeColor) {
+            this.strokeStyle(this.strokeColor);
+            this.stroke();
+        }
+        if (this.fillColor) {
+            this.fillStyle(this.fillColor);
+            this.fill();
+        }
+    };
+    return Polygon;
+}(shape_1.default));
+exports.default = Polygon;
+
+
+/***/ }),
+
 /***/ "./src/node/shape/rect.ts":
 /*!********************************!*\
   !*** ./src/node/shape/rect.ts ***!
@@ -1804,6 +2127,151 @@ var Rect = /** @class */ (function (_super) {
     return Rect;
 }(shape_1.default));
 exports.default = Rect;
+
+
+/***/ }),
+
+/***/ "./src/node/shape/rounded-rect.ts":
+/*!****************************************!*\
+  !*** ./src/node/shape/rounded-rect.ts ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+var RoundedRect = /** @class */ (function (_super) {
+    __extends(RoundedRect, _super);
+    function RoundedRect(width, height, r, option) {
+        var _this = _super.call(this) || this;
+        _this.option = Object.assign({
+            lineWidth: 1,
+            lt: true,
+            rt: true,
+            lb: true,
+            rb: true
+        }, option);
+        _this.r = r || 0;
+        _this.width = width;
+        _this.height = height;
+        return _this;
+    }
+    RoundedRect.prototype.draw = function () {
+        var width = this.width, height = this.height, r = this.r;
+        var ax = r, ay = 0, bx = width, by = 0, cx = width, cy = height, dx = 0, dy = height, ex = 0, ey = 0;
+        this.beginPath();
+        this.moveTo(ax, ay);
+        if (this.option.rt) {
+            this.arcTo(bx, by, cx, cy, r);
+        }
+        else {
+            this.lineTo(bx, by);
+        }
+        if (this.option.rb) {
+            this.arcTo(cx, cy, dx, dy, r);
+        }
+        else {
+            this.lineTo(cx, cy);
+        }
+        if (this.option.lb) {
+            this.arcTo(dx, dy, ex, ey, r);
+        }
+        else {
+            this.lineTo(dx, dy);
+        }
+        if (this.option.lt) {
+            this.arcTo(ex, ey, ax, ay, r);
+        }
+        else {
+            this.lineTo(ex, ey);
+        }
+        if (this.option.fillStyle) {
+            this.closePath();
+            this.fillStyle(this.option.fillStyle);
+            this.fill();
+        }
+        if (this.option.strokeStyle) {
+            this.lineWidth(this.option.lineWidth);
+            this.strokeStyle(this.option.strokeStyle);
+            this.stroke();
+        }
+    };
+    return RoundedRect;
+}(shape_1.default));
+exports.default = RoundedRect;
+
+
+/***/ }),
+
+/***/ "./src/node/shape/sector.ts":
+/*!**********************************!*\
+  !*** ./src/node/shape/sector.ts ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+var Sector = /** @class */ (function (_super) {
+    __extends(Sector, _super);
+    function Sector(r, from, to, option) {
+        var _this = _super.call(this) || this;
+        _this.option = option || {};
+        _this.r = r;
+        _this.from = from;
+        _this.to = to;
+        return _this;
+    }
+    Sector.prototype.draw = function () {
+        this.beginPath()
+            .moveTo(0, 0)
+            .arc(0, 0, this.r, this.from, this.to)
+            .closePath()
+            .fillStyle(this.option.fillStyle)
+            .fill()
+            .strokeStyle(this.option.strokeStyle)
+            .lineWidth(this.option.lineWidth)
+            .stroke();
+    };
+    return Sector;
+}(shape_1.default));
+exports.default = Sector;
 
 
 /***/ }),
@@ -2016,6 +2484,59 @@ var Stage = /** @class */ (function (_super) {
     return Stage;
 }(group_1.default));
 exports.default = Stage;
+
+
+/***/ }),
+
+/***/ "./src/node/text.ts":
+/*!**************************!*\
+  !*** ./src/node/text.ts ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var node_1 = __importDefault(__webpack_require__(/*! ./node */ "./src/node/node.ts"));
+var Text = /** @class */ (function (_super) {
+    __extends(Text, _super);
+    function Text(text, option) {
+        var _this = _super.call(this) || this;
+        _this.text = text;
+        option = option || {};
+        _this.font = option.font || '10px sans-serif';
+        _this.color = option.color || 'black';
+        _this.textAlign = option.textAlign || 'left';
+        _this.baseline = option.baseline || 'top';
+        return _this;
+    }
+    Text.prototype.render = function (ctx) {
+        ctx.font = this.font;
+        ctx.fillStyle = this.color;
+        ctx.textAlign = this.textAlign;
+        ctx.textBaseline = this.baseline;
+        ctx.fillText(this.text, 0, 0);
+    };
+    return Text;
+}(node_1.default));
+exports.default = Text;
 
 
 /***/ }),

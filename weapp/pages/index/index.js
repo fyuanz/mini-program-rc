@@ -1,6 +1,6 @@
 //index.js
 import mprc from '../../lib/main';
-const { Stage, Group, Graphics, Rect, Circle, Bitmap } = mprc;
+const { Stage, Group, Graphics, Rect, Circle, Bitmap, Text } = mprc;
 let canvas, hitCanvas;
 let stage;
 let img = '../../image/logo.png';
@@ -53,8 +53,16 @@ Page({
     bitmap.y = 100;
     bitmap.scale = 0.5;
 
+    const text = new Text('微信', {
+      font: '20px sans-serif',
+      color: 'red'
+    });
+    text.x = 150;
+    text.y = 190;
+
     stage.add(group);
     stage.add(bitmap);
+    stage.add(text);
     stage.update();
     console.log(stage);
   },
