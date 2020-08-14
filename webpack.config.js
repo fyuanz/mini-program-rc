@@ -24,7 +24,7 @@ module.exports = {
   },
   plugins: [new CleanWebpackPlugin()],
   output: {
-    library: 'miniProgramsRC',
+    library: 'miniProgramRC',
     libraryTarget: 'umd',
     filename: '[name].js',
     path: path.resolve(__dirname, devtool ? 'weapp/lib' : 'dist')
