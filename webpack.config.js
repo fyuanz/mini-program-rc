@@ -1,5 +1,4 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const devtool = process.env.NODE_ENV === 'production' ? false : 'inline-source-map';
@@ -23,12 +22,7 @@ module.exports = {
   devServer: {
     contentBase: './dist'
   },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      title: 'wchatMiniProgramsRenderCanvas'
-    })
-  ],
+  plugins: [new CleanWebpackPlugin()],
   output: {
     library: 'miniProgramsRC',
     libraryTarget: 'umd',

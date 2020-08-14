@@ -1,10 +1,7 @@
-import Graphics from './graphics';
+import Graphics from '../graphics';
 
 class Shape extends Graphics {
-  [x: string]: any;
-  constructor() {
-    super();
-  }
+  public draw(): void {}
 
   render(ctx: any) {
     this.clear();

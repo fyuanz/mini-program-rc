@@ -1,14 +1,17 @@
 //index.js
 import mprc from '../../lib/main';
-const { Stage, Group, Graphics, Rect, Circle } = mprc;
+const { Stage, Group, Graphics, Rect, Circle, Bitmap } = mprc;
 let canvas, hitCanvas;
 let stage;
+let img = '../../image/logo.png';
 
 Page({
   data: {
     width: 375,
     height: 300
   },
+
+  onLoad: function () {},
 
   onReady: async function () {
     canvas = await this.getContainer('#canvas');
@@ -42,12 +45,18 @@ Page({
     });
 
     group.add(circle);
-
     group.add(rect);
 
+    const imgObj = await stage.loadImage(img);
+    const bitmap = new Bitmap(imgObj);
+    bitmap.x = 160;
+    bitmap.y = 100;
+    bitmap.scale = 0.5;
+
     stage.add(group);
-    console.log(stage);
+    stage.add(bitmap);
     stage.update();
+    console.log(stage);
   },
 
   touchstart: function (event) {

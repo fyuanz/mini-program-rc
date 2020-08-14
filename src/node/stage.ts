@@ -55,6 +55,20 @@ class Stage extends Group {
     return this.ctx.measureText(text).width;
   }
 
+  loadImage(url: string) {
+    const canvas = this.container;
+    return new Promise((resolve, reject) => {
+      const image = canvas.createImage();
+      image.src = url;
+      image.onload = function () {
+        resolve(image);
+      };
+      image.onerror = function (error: any) {
+        reject(error);
+      };
+    });
+  }
+
   touchStartHandler(evt: any) {
     const p1 = evt.changedTouches[0];
     evt.stageX = Math.round(p1.x * this.scaleX);

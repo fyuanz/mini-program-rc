@@ -9,6 +9,7 @@
 - 图灵完备的 group 嵌套体系
 - 支持可以变形的 clip 裁剪体系
 - 内置文本、位图、绘图对象和多种矢量绘制对象
+- 内置图片加载器
 
 ---
 
@@ -22,6 +23,7 @@
 
 ```js
 import mprc from 'main.js';
+const { Stage, Group, Graphics, Rect, Circle } = mprc;
 
 Page({
   data: {
@@ -134,7 +136,7 @@ Page({
 
 事件触发精确到像素级。如果要使用元素的矩形区域为点击区域，则需要设置 width 和 height ，同时需要将元素的 hitBox 属性设置为 ture。
 
-## 注意：
+## 注意
 
 该项目参考了小程序、小游戏以及 Web 通用 Canvas 渲染引擎 Cax [![](https://img.shields.io/npm/v/cax.svg)](https://www.npmjs.com/package/cax) 、项目 easel.js 和 spritejs，API 大多与 Cax 项目保持基本相同，具体可以参考 Cax 文档。
 
@@ -146,14 +148,13 @@ Page({
 
 如果你的项目比较复杂，请用其他 canvas 渲染引擎。
 
-### 不支持 Cax 中的方法：
+### 不支持 Cax 中的方法
 
 - 无运动引擎
 - 不支持 SVG Path 渲染
 - 不支持滤镜
-- 没有内置图片加载器。项目中使用 img 对象来做位图渲染。
 
-### 属性不同：
+### 属性不同
 
 #### Transform
 
@@ -185,13 +186,40 @@ Page({
 }
 ```
 
-### 初始化不同
+### 方法不同
 
 该项目初始化传入参数为 canvas 对象而不是 ID，所以应获取 canvas 对象后初始化，具体请查看示例代码
 
+#### bitmap 对象
+
+使用的参数是 img 对象，不能使用 url 或者本地路径，bitmap 为同步，无回调方法
+
+```js
+const bitmap = new Bitmap(img);
+stage.add(bitmap);
+stage.updata();
+```
+
+#### 图片加载器
+
+图片加载器返回 Promise
+
+```js
+const { loadImage } = mprc;
+const imgObj = await loadImage('../logo.png', canvas);
+
+// 或者
+const stage = new Stage(canvas, 200, 200);
+const imgObj2 = await stage.loadImage('../logo.png');
+
+const bitmap = new bitMap(imgObj2);
+stage.add(bitmap);
+stage.updata();
+```
+
 ## To do
 
-- 实现内置图片加载器？
+-
 
 ## License
 

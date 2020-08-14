@@ -1,4 +1,4 @@
-import Shape from '../shape';
+import Shape from './shape';
 
 interface optionInterface {
   [x: string]: string | number;
@@ -7,6 +7,7 @@ interface optionInterface {
 class Circle extends Shape {
   r: number;
   option: optionInterface;
+  _dp: number;
 
   constructor(r: number, option: optionInterface) {
     super();
@@ -16,7 +17,7 @@ class Circle extends Shape {
     this._dp = Math.PI * 2;
   }
 
-  draw() {
+  public draw() {
     this.beginPath();
     this.arc(0, 0, this.r, 0, this._dp, false);
 

@@ -1,4 +1,4 @@
-import Shape from '../shape';
+import Shape from './shape';
 
 interface optionInterface {
   [x: string]: string | number;
