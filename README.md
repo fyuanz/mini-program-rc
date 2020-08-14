@@ -1,5 +1,7 @@
 # 微信小程序 轻量级 Canvas (type="2d") 渲染引擎
 
+## mini-programs-rc [![](https://img.shields.io/npm/v/mini-programs-rc)](https://www.npmjs.com/package/mini-programs-rc)
+
 ## 特性
 
 - 高性能且松耦合的渲染架构
