@@ -1,6 +1,6 @@
 # 微信小程序 轻量级 Canvas (type="2d") 渲染引擎
 
-## mini-programs-rc [![](https://img.shields.io/npm/v/mini-program-rc)](https://www.npmjs.com/package/mini-programs-rc)
+## mini-programs-rc [![](https://img.shields.io/npm/v/mini-program-rc)](https://www.npmjs.com/package/mini-program-rc)
 
 ## 特性
 
