@@ -24,15 +24,11 @@ Page({
     group.y = 50;
     group.alpha = 0.8;
 
-    const rect = new Rect(100, 200, {
+    const rect = new Rect(100, 100, {
       fillStyle: '#000000'
     });
     rect.alpha = 0.2;
     rect.hitBox = true;
-
-    const clipPath = new Graphics();
-    clipPath.arc(50, 50, 50, 0, Math.PI * 2);
-    rect.clip(clipPath);
 
     const circle = new Circle(50, {
       fillStyle: 'red'
@@ -53,6 +49,12 @@ Page({
     bitmap.y = 100;
     bitmap.scale = 0.5;
 
+    bitmap.on('drag', function (event) {
+      bitmap.x += event.dx;
+      bitmap.y += event.dy;
+      stage.update();
+    });
+
     const text = new Text('微信', {
       font: '20px sans-serif',
       color: 'red'
@@ -60,7 +62,14 @@ Page({
     text.x = 150;
     text.y = 190;
 
+    const clipPath = new Graphics();
+    clipPath.arc(50, 50, 50, 0, Math.PI * 2);
+    clipPath.x = 10;
+    clipPath.y = 10;
+    group.clip(clipPath);
+
     stage.add(group);
+
     stage.add(bitmap);
     stage.add(text);
     stage.update();

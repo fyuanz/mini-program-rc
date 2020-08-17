@@ -81,24 +81,34 @@ export default class Group extends Node {
     let l = children.length;
     for (let i = l - 1; i >= 0; i--) {
       let child = children[i];
+      let hitBox = child.hitBox;
       if (!child.isVisible() || child.ignoreHit) {
         continue;
       }
       if (!this._testMask(child, x, y, ctx)) {
         continue;
       }
-      if (child instanceof Group) {
+      if (!hitBox && child instanceof Group) {
         let result = child._getObjectsUnderPoint(x, y, ctx);
         if (result) return !this.mouseChildren ? this : result;
       } else {
         let props = child.getConcatenatedDisplayProps(child._props);
         let mtx = props.matrix;
 
-        if (child.hitBox) {
+        if (hitBox) {
           let mtxClone = mtx.clone();
           child.setBounds(child.x, child.y, child.width, child.height);
-          if (this.checkPointInAABB(x, y, child._getBounds(mtxClone))) {
-            return !this.mouseChildren ? this : child;
+          let bounds = child._getBounds(mtxClone);
+          let AABB = [bounds.x, bounds.y, bounds.width, bounds.height];
+          if (this.checkPointInAABB(x, y, AABB)) {
+            if (child instanceof Group) {
+              let result = child._getObjectsUnderPoint(x, y, ctx);
+              if (result) {
+                return !this.mouseChildren ? this : result;
+              } else {
+                return child;
+              }
+            }
           }
         }
 

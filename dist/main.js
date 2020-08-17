@@ -1346,13 +1346,14 @@ var Group = /** @class */ (function (_super) {
         var l = children.length;
         for (var i = l - 1; i >= 0; i--) {
             var child = children[i];
+            var hitBox = child.hitBox;
             if (!child.isVisible() || child.ignoreHit) {
                 continue;
             }
             if (!this._testMask(child, x, y, ctx)) {
                 continue;
             }
-            if (child instanceof Group) {
+            if (!hitBox && child instanceof Group) {
                 var result = child._getObjectsUnderPoint(x, y, ctx);
                 if (result)
                     return !this.mouseChildren ? this : result;
@@ -1360,11 +1361,21 @@ var Group = /** @class */ (function (_super) {
             else {
                 var props = child.getConcatenatedDisplayProps(child._props);
                 var mtx = props.matrix;
-                if (child.hitBox) {
+                if (hitBox) {
                     var mtxClone = mtx.clone();
                     child.setBounds(child.x, child.y, child.width, child.height);
-                    if (this.checkPointInAABB(x, y, child._getBounds(mtxClone))) {
-                        return !this.mouseChildren ? this : child;
+                    var bounds = child._getBounds(mtxClone);
+                    var AABB = [bounds.x, bounds.y, bounds.width, bounds.height];
+                    if (this.checkPointInAABB(x, y, AABB)) {
+                        if (child instanceof Group) {
+                            var result = child._getObjectsUnderPoint(x, y, ctx);
+                            if (result) {
+                                return !this.mouseChildren ? this : result;
+                            }
+                            else {
+                                return child;
+                            }
+                        }
                     }
                 }
                 ctx.globalAlpha = props.alpha;
