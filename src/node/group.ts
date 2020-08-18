@@ -96,18 +96,18 @@ export default class Group extends Node {
         let mtx = props.matrix;
 
         if (hitBox) {
-          let mtxClone = mtx.clone();
-          child.setBounds(child.x, child.y, child.width, child.height);
-          let bounds = child._getBounds(mtxClone);
+          child.setBounds(0, 0, child.width, child.height);
+          let bounds = child._getBounds(child.parent._props.matrix);
           let AABB = [bounds.x, bounds.y, bounds.width, bounds.height];
-          if (this.checkPointInAABB(x, y, AABB)) {
-            if (child instanceof Group) {
-              let result = child._getObjectsUnderPoint(x, y, ctx);
-              if (result) {
-                return !this.mouseChildren ? this : result;
-              } else {
-                return child;
-              }
+          if (!this.checkPointInAABB(x, y, AABB)) {
+            continue;
+          }
+          if (child instanceof Group) {
+            let result = child._getObjectsUnderPoint(x, y, ctx);
+            if (result) {
+              return !this.mouseChildren ? this : result;
+            } else {
+              return child;
             }
           }
         }

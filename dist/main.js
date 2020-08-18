@@ -1362,19 +1362,19 @@ var Group = /** @class */ (function (_super) {
                 var props = child.getConcatenatedDisplayProps(child._props);
                 var mtx = props.matrix;
                 if (hitBox) {
-                    var mtxClone = mtx.clone();
-                    child.setBounds(child.x, child.y, child.width, child.height);
-                    var bounds = child._getBounds(mtxClone);
+                    child.setBounds(0, 0, child.width, child.height);
+                    var bounds = child._getBounds(child.parent._props.matrix);
                     var AABB = [bounds.x, bounds.y, bounds.width, bounds.height];
-                    if (this.checkPointInAABB(x, y, AABB)) {
-                        if (child instanceof Group) {
-                            var result = child._getObjectsUnderPoint(x, y, ctx);
-                            if (result) {
-                                return !this.mouseChildren ? this : result;
-                            }
-                            else {
-                                return child;
-                            }
+                    if (!this.checkPointInAABB(x, y, AABB)) {
+                        continue;
+                    }
+                    if (child instanceof Group) {
+                        var result = child._getObjectsUnderPoint(x, y, ctx);
+                        if (result) {
+                            return !this.mouseChildren ? this : result;
+                        }
+                        else {
+                            return child;
                         }
                     }
                 }
@@ -2430,7 +2430,7 @@ var Stage = /** @class */ (function (_super) {
         mockEvt.stageX = evt.stageX;
         mockEvt.stageY = evt.stageY;
         mockEvt.originalEvent = evt;
-        if (this.willDragObject) {
+        if (this.willDragObject && evt.changedTouches.length === 1) {
             mockEvt.type = 'drag';
             mockEvt.dx = mockEvt.stageX - this.preStageX;
             mockEvt.dy = mockEvt.stageY - this.preStageY;

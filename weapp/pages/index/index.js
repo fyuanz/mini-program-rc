@@ -20,8 +20,8 @@ Page({
     stage.setHitCanvas(hitCanvas);
 
     const group = new Group();
-    group.x = 50;
-    group.y = 50;
+    group.x = 160;
+    group.y = 160;
     group.alpha = 0.8;
 
     const rect = new Rect(100, 100, {
@@ -45,8 +45,8 @@ Page({
 
     const imgObj = await stage.loadImage(img);
     const bitmap = new Bitmap(imgObj);
-    bitmap.x = 160;
-    bitmap.y = 100;
+    bitmap.x = 60;
+    bitmap.y = 60;
     bitmap.scale = 0.5;
 
     bitmap.on('drag', function (event) {
@@ -64,8 +64,8 @@ Page({
 
     const clipPath = new Graphics();
     clipPath.arc(50, 50, 50, 0, Math.PI * 2);
-    clipPath.x = 10;
-    clipPath.y = 10;
+    clipPath.x = 100;
+    clipPath.y = 100;
     group.clip(clipPath);
 
     stage.add(group);

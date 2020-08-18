@@ -94,7 +94,7 @@ class Stage extends Group {
     mockEvt.stageY = evt.stageY;
     mockEvt.originalEvent = evt;
 
-    if (this.willDragObject) {
+    if (this.willDragObject && evt.changedTouches.length === 1) {
       mockEvt.type = 'drag';
       mockEvt.dx = mockEvt.stageX - this.preStageX;
       mockEvt.dy = mockEvt.stageY - this.preStageY;
