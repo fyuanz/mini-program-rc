@@ -2379,8 +2379,7 @@ var Stage = /** @class */ (function (_super) {
         _this.ctx = ctx;
         _this.render = new index_1.default(ctx, container.width, container.height);
         _this.hitCtx = null;
-        _this.willDragObject = null;
-        _this._overObject = null;
+        _this.touchObject = null;
         _this.___instanceof = 'Stage';
         return _this;
     }
@@ -2411,11 +2410,11 @@ var Stage = /** @class */ (function (_super) {
         });
     };
     Stage.prototype.touchStartHandler = function (evt) {
-        var p1 = evt.changedTouches[0];
-        evt.stageX = Math.round(p1.x * this.scaleX);
-        evt.stageY = Math.round(p1.y * this.scaleY);
+        var p1 = evt.touches[0];
+        evt.stageX = Math.round(p1.x);
+        evt.stageY = Math.round(p1.y);
         var obj = this.getObjectUnderPoint(evt);
-        this.willDragObject = obj;
+        this.touchObject = obj;
         this._mouseDownX = evt.stageX;
         this._mouseDownY = evt.stageY;
         this.preStageX = evt.stageX;
@@ -2423,50 +2422,35 @@ var Stage = /** @class */ (function (_super) {
         this.__dispatchEvent(obj, evt);
     };
     Stage.prototype.touchMoveHandler = function (evt) {
-        var p1 = evt.changedTouches[0];
-        evt.stageX = Math.round(p1.x * this.scaleX);
-        evt.stageY = Math.round(p1.y * this.scaleY);
-        var obj = this.getObjectUnderPoint(evt);
+        var p1 = evt.touches[0];
+        var touchesLength = evt.touches.length;
+        evt.stageX = Math.round(p1.x);
+        evt.stageY = Math.round(p1.y);
         var mockEvt = new event_1.default();
         mockEvt.stageX = evt.stageX;
         mockEvt.stageY = evt.stageY;
         mockEvt.originalEvent = evt;
-        if (this.willDragObject && evt.changedTouches.length === 1) {
+        if (touchesLength === 1) {
             mockEvt.type = 'drag';
             mockEvt.dx = mockEvt.stageX - this.preStageX;
             mockEvt.dy = mockEvt.stageY - this.preStageY;
             this.preStageX = mockEvt.stageX;
             this.preStageY = mockEvt.stageY;
-            this.willDragObject.dispatchEvent(mockEvt);
+            this.touchObject.dispatchEvent(mockEvt);
         }
-        if (obj) {
-            if (this._overObject === null) {
-                this._overObject = obj;
-            }
-            else {
-                if (obj.id !== this._overObject.id) {
-                    this._overObject = obj;
-                }
-                else {
-                    this.__dispatchEvent(obj, evt);
-                }
-            }
-        }
-        else if (this._overObject) {
-            this._overObject = null;
-        }
+        this.__dispatchEvent(this.touchObject, evt);
     };
     Stage.prototype.touchEndHandler = function (evt) {
         var p1 = evt.changedTouches[0];
-        evt.stageX = Math.round(p1.x * this.scaleX);
-        evt.stageY = Math.round(p1.y * this.scaleY);
+        evt.stageX = Math.round(p1.x);
+        evt.stageY = Math.round(p1.y);
         var obj = this.getObjectUnderPoint(evt);
         this._mouseUpX = evt.stageX;
         this._mouseUpY = evt.stageY;
-        this.willDragObject = null;
+        this.__dispatchEvent(this.touchObject, evt);
+        this.touchObject = null;
         this.preStageX = null;
         this.preStageY = null;
-        this.__dispatchEvent(obj, evt);
         if (obj &&
             Math.abs(this._mouseDownX - this._mouseUpX) < 30 &&
             Math.abs(this._mouseDownY - this._mouseUpY) < 30) {
