@@ -96,8 +96,9 @@ export default class Group extends Node {
         let mtx = props.matrix;
 
         if (hitBox) {
-          child.setBounds(0, 0, child.width, child.height);
-          let bounds = child._getBounds(child.parent._props.matrix);
+          let mtxClone = mtx.clone();
+          child.setBounds(hitBox[0], hitBox[1], hitBox[2], hitBox[3]);
+          let bounds = child._getBounds(mtxClone, true);
           let AABB = [bounds.x, bounds.y, bounds.width, bounds.height];
           if (!this.checkPointInAABB(x, y, AABB)) {
             continue;

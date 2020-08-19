@@ -51,7 +51,7 @@ export default class Node {
 
   compositeOperation: string | null;
 
-  hitBox: boolean;
+  hitBox: Array<number> | null;
   ignoreHit: boolean;
 
   ___instanceof!: string;
@@ -85,7 +85,7 @@ export default class Node {
 
     this.compositeOperation = null;
 
-    this.hitBox = false;
+    this.hitBox = null;
     this.ignoreHit = false;
   }
 

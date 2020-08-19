@@ -48,7 +48,7 @@ Page({
       fillStyle: '#000000'
     });
     rect.alpha = 0.2;
-    rect.hitBox = true;
+    rect.hitBox = [0, 0, 100, 200];
     const clipPath = new Graphics();
     clipPath.arc(50, 50, 50, 0, Math.PI * 2);
     rect.clip(clipPath);
@@ -136,7 +136,7 @@ Page({
 | touchend   | 手指触摸动作结束   |
 | drag       | 拖拽               |
 
-事件触发精确到像素级。如果要使用元素的矩形区域为点击区域，则需要设置 width 和 height ，同时需要将元素的 hitBox 属性设置为 ture。
+事件触发精确到像素级。如果要使用元素的矩形区域为点击区域，则需要设置设置元素的 hitBox 。
 
 ## 注意
 

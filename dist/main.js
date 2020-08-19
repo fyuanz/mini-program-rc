@@ -1362,8 +1362,9 @@ var Group = /** @class */ (function (_super) {
                 var props = child.getConcatenatedDisplayProps(child._props);
                 var mtx = props.matrix;
                 if (hitBox) {
-                    child.setBounds(0, 0, child.width, child.height);
-                    var bounds = child._getBounds(child.parent._props.matrix);
+                    var mtxClone = mtx.clone();
+                    child.setBounds(hitBox[0], hitBox[1], hitBox[2], hitBox[3]);
+                    var bounds = child._getBounds(mtxClone, true);
                     var AABB = [bounds.x, bounds.y, bounds.width, bounds.height];
                     if (!this.checkPointInAABB(x, y, AABB)) {
                         continue;
@@ -1481,7 +1482,7 @@ var Node = /** @class */ (function () {
         this._rectangle = new rectangle_1.default();
         this._bounds = null;
         this.compositeOperation = null;
-        this.hitBox = false;
+        this.hitBox = null;
         this.ignoreHit = false;
     }
     Object.defineProperty(Node.prototype, "stage", {

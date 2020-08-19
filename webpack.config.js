@@ -27,7 +27,7 @@ module.exports = {
     library: 'miniProgramRC',
     libraryTarget: 'umd',
     filename: '[name].js',
-    path: path.resolve(__dirname, devtool ? 'weapp/lib' : 'dist'),
+    path: path.resolve(__dirname, devtool ? 'moka/lib' : 'dist'),
     umdNamedDefine: true,
     globalObject: 'this'
   }
