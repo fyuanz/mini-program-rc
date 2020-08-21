@@ -2452,8 +2452,8 @@ var Stage = /** @class */ (function (_super) {
         this.preStageX = null;
         this.preStageY = null;
         if (obj &&
-            Math.abs(this._mouseDownX - this._mouseUpX) < 30 &&
-            Math.abs(this._mouseDownY - this._mouseUpY) < 30) {
+            Math.abs(this._mouseDownX - this._mouseUpX) < 10 &&
+            Math.abs(this._mouseDownY - this._mouseUpY) < 10) {
             var mockEvt = new event_1.default();
             mockEvt.stageX = evt.stageX;
             mockEvt.stageY = evt.stageY;

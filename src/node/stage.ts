@@ -121,8 +121,8 @@ class Stage extends Group {
 
     if (
       obj &&
-      Math.abs(this._mouseDownX - this._mouseUpX) < 30 &&
-      Math.abs(this._mouseDownY - this._mouseUpY) < 30
+      Math.abs(this._mouseDownX - this._mouseUpX) < 10 &&
+      Math.abs(this._mouseDownY - this._mouseUpY) < 10
     ) {
       let mockEvt = new Event();
       mockEvt.stageX = evt.stageX;
