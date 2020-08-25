@@ -45,6 +45,7 @@ export default class Group extends Node {
   }
 
   remove(child: any) {
+    if (!child) return;
     const len = arguments.length;
     let cLen = this.children.length;
 

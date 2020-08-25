@@ -1314,6 +1314,8 @@ var Group = /** @class */ (function (_super) {
         this.addChildAt(current, index);
     };
     Group.prototype.remove = function (child) {
+        if (!child)
+            return;
         var len = arguments.length;
         var cLen = this.children.length;
         for (var i = 0; i < len; i++) {
