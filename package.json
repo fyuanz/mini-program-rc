@@ -1,15 +1,15 @@
 {
-  "name": "mini-program-rc",
+  "name": "@polpo-studio/cax-next",
   "version": "1.1.2",
   "description": "",
   "main": "dist/main.js",
+  "type": "types/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
     "start": "cross-env NODE_ENV=development webpack-dev-server --open",
     "build": "cross-env NODE_ENV=production webpack"
   },
-  "author": "fyuanz",
+  "author": "polpo-studio",
   "license": "MIT",
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
@@ -20,8 +20,12 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
+  "files": [
+    "dist",
+    "types"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fyuanz/mini-program-rc.git"
+    "url": "git+https://github.com/@polpo-studio/cax-next.git"
   }
 }

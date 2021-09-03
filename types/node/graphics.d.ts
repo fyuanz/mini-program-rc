@@ -1,0 +1,35 @@
+import Node from './node';
+declare class Graphics extends Node {
+    cmds: Array<Array<any>>;
+    currentGradient: any;
+    constructor();
+    clearRect(...params: any[]): this;
+    rect(...params: any[]): this;
+    clear(...params: any[]): this;
+    setLineDash(...params: any[]): this;
+    strokeRect(...params: any[]): this;
+    fillRect(...params: any[]): this;
+    beginPath(...params: any[]): this;
+    arc(...params: any[]): this;
+    closePath(...params: any[]): this;
+    fillStyle(...params: any[]): this;
+    fill(...params: any[]): this;
+    strokeStyle(...params: any[]): this;
+    lineWidth(...params: any[]): this;
+    lineCap(...params: any[]): this;
+    lineDashOffset(...params: any[]): this;
+    lineJoin(...params: any[]): this;
+    miterLimit(...params: any[]): this;
+    stroke(...params: any[]): this;
+    moveTo(...params: any[]): this;
+    lineTo(...params: any[]): this;
+    bezierCurveTo(...params: any[]): this;
+    quadraticCurveTo(...params: any[]): this;
+    createRadialGradient(...params: any[]): this;
+    createLinearGradient(...params: any[]): this;
+    addColorStop(...params: any[]): this;
+    fillGradient(...params: any[]): this;
+    arcTo(...params: any[]): this;
+    render(ctx: any): void;
+}
+export default Graphics;
