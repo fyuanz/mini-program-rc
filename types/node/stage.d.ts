@@ -17,9 +17,9 @@ declare class Stage extends Group {
     setHitCanvas(hitCanvas: any): void;
     getTextWidth(text: string, font: string): any;
     loadImage(url: string): Promise<unknown>;
-    touchStartHandler(evt: any): void;
-    touchMoveHandler(evt: any): void;
-    touchEndHandler(evt: any): void;
+    touchStartHandler(evt: Event): void;
+    touchMoveHandler(evt: Event): void;
+    touchEndHandler(evt: Event): void;
     getObjectUnderPoint(evt: ScriptEvent): any;
     private __dispatchEvent;
 }

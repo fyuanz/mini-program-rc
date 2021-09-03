@@ -10,7 +10,7 @@ export default class Group extends Node {
     this.mouseChildren = true;
   }
 
-  add() {
+  add(child: any) {
     const len = arguments.length;
     for (let i = 0; i < len; i++) {
       const c = arguments[i];
@@ -165,7 +165,7 @@ export default class Group extends Node {
     let maxX = minX + AABB[2];
     if (x > maxX) return false;
     let maxY = minY + AABB[3];
-    if (y > maxY) return false;
-    return true;
+    return y <= maxY;
+
   }
 }
