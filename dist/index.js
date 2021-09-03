@@ -106,51 +106,38 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var _type = Symbol('type');
-var _bubbles = Symbol('bubbles');
-var _originalEvent = Symbol('_originalEvent');
-var Event = /** @class */ (function () {
-    function Event() {
+const _type = Symbol('type');
+const _bubbles = Symbol('bubbles');
+const _originalEvent = Symbol('_originalEvent');
+class Event {
+    constructor() {
         this[_type] = '';
         this[_originalEvent] = null;
         this[_bubbles] = true;
         this.cancelBubble = false;
     }
-    Event.prototype.stopPropagation = function () {
+    stopPropagation() {
         this.cancelBubble = true;
-    };
-    Object.defineProperty(Event.prototype, "type", {
-        get: function () {
-            return this[_type];
-        },
-        set: function (value) {
-            this[_type] = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Event.prototype, "originalEvent", {
-        get: function () {
-            return this[_originalEvent];
-        },
-        set: function (value) {
-            this[_originalEvent] = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Event.prototype, "bubbles", {
-        get: function () {
-            return this[_bubbles];
-        },
-        set: function (value) {
-            this[_bubbles] = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return Event;
-}());
+    }
+    get type() {
+        return this[_type];
+    }
+    set type(value) {
+        this[_type] = value;
+    }
+    get originalEvent() {
+        return this[_originalEvent];
+    }
+    set originalEvent(value) {
+        this[_originalEvent] = value;
+    }
+    get bubbles() {
+        return this[_bubbles];
+    }
+    set bubbles(value) {
+        this[_bubbles] = value;
+    }
+}
 exports.default = Event;
 
 
@@ -169,44 +156,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var matrix2d_1 = __importDefault(__webpack_require__(/*! ./matrix2d */ "./src/geom/matrix2d.js"));
-var DisplayProps = /** @class */ (function () {
-    function DisplayProps(visible, alpha, shadow, compositeOperation, matrix) {
+const matrix2d_1 = __importDefault(__webpack_require__(/*! ./matrix2d */ "./src/geom/matrix2d.js"));
+class DisplayProps {
+    constructor(visible, alpha, shadow, compositeOperation, matrix) {
         this.setValue(visible, alpha, shadow, compositeOperation, matrix);
     }
-    DisplayProps.prototype.setValue = function (visible, alpha, shadow, compositeOperation, matrix) {
+    setValue(visible, alpha, shadow, compositeOperation, matrix) {
         this.visible = visible == null ? true : !!visible;
         this.alpha = alpha == null ? 1 : alpha;
         this.shadow = shadow || null;
         this.compositeOperation = compositeOperation || null;
         this.matrix = matrix || (this.matrix && this.matrix.identity()) || new matrix2d_1.default();
         return this;
-    };
-    DisplayProps.prototype.append = function (visible, alpha, shadow, compositeOperation, matrix) {
+    }
+    append(visible, alpha, shadow, compositeOperation, matrix) {
         this.alpha *= alpha;
         this.shadow = shadow || this.shadow;
         this.compositeOperation = compositeOperation || this.compositeOperation;
         this.visible = this.visible && visible;
         matrix && this.matrix.appendMatrix(matrix);
         return this;
-    };
-    DisplayProps.prototype.prepend = function (visible, alpha, shadow, compositeOperation, matrix) {
+    }
+    prepend(visible, alpha, shadow, compositeOperation, matrix) {
         this.alpha *= alpha;
         this.shadow = this.shadow || shadow;
         this.compositeOperation = this.compositeOperation || compositeOperation;
         this.visible = this.visible && visible;
         matrix && this.matrix.prependMatrix(matrix);
         return this;
-    };
-    DisplayProps.prototype.identity = function () {
+    }
+    identity() {
         this.visible = true;
         this.alpha = 1;
         this.shadow = this.compositeOperation = null;
         this.matrix.identity();
         return this;
-    };
-    return DisplayProps;
-}());
+    }
+}
 exports.default = DisplayProps;
 
 
@@ -777,18 +763,18 @@ Matrix2D.identity = new Matrix2D();
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Rectangle = /** @class */ (function () {
-    function Rectangle(x, y, width, height) {
+class Rectangle {
+    constructor(x, y, width, height) {
         this.setValues(x, y, width, height);
     }
-    Rectangle.prototype.setValues = function (x, y, width, height) {
+    setValues(x, y, width, height) {
         this.x = x || 0;
         this.y = y || 0;
         this.width = width || 0;
         this.height = height || 0;
         return this;
-    };
-    Rectangle.prototype.extend = function (x, y, width, height) {
+    }
+    extend(x, y, width, height) {
         width = width || 0;
         height = height || 0;
         if (x + width > this.x + this.width) {
@@ -806,26 +792,25 @@ var Rectangle = /** @class */ (function () {
             this.y = y;
         }
         return this;
-    };
-    Rectangle.prototype.copy = function (rectangle) {
+    }
+    copy(rectangle) {
         return this.setValues(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-    };
-    Rectangle.prototype.contains = function (x, y, width, height) {
+    }
+    contains(x, y, width, height) {
         width = width || 0;
         height = height || 0;
         return (x >= this.x &&
             x + width <= this.x + this.width &&
             y >= this.y &&
             y + height <= this.y + this.height);
-    };
-    Rectangle.prototype.isEmpty = function () {
+    }
+    isEmpty() {
         return this.width <= 0 || this.height <= 0;
-    };
-    Rectangle.prototype.clone = function () {
+    }
+    clone() {
         return new Rectangle(this.x, this.y, this.width, this.height);
-    };
-    return Rectangle;
-}());
+    }
+}
 exports.default = Rectangle;
 
 
@@ -863,23 +848,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var index_1 = __importDefault(__webpack_require__(/*! ./render/index */ "./src/render/index.ts"));
-var stage_1 = __importDefault(__webpack_require__(/*! ./node/stage */ "./src/node/stage.ts"));
-var group_1 = __importDefault(__webpack_require__(/*! ./node/group */ "./src/node/group.ts"));
-var bitmap_1 = __importDefault(__webpack_require__(/*! ./node/bitmap */ "./src/node/bitmap.ts"));
-var text_1 = __importDefault(__webpack_require__(/*! ./node/text */ "./src/node/text.ts"));
-var graphics_1 = __importDefault(__webpack_require__(/*! ./node/graphics */ "./src/node/graphics.ts"));
-var shape_1 = __importDefault(__webpack_require__(/*! ./node/shape/shape */ "./src/node/shape/shape.ts"));
-var rect_1 = __importDefault(__webpack_require__(/*! ./node/shape/rect */ "./src/node/shape/rect.ts"));
-var circle_1 = __importDefault(__webpack_require__(/*! ./node/shape/circle */ "./src/node/shape/circle.ts"));
-var rounded_rect_1 = __importDefault(__webpack_require__(/*! ./node/shape/rounded-rect */ "./src/node/shape/rounded-rect.ts"));
-var arrow_path_1 = __importDefault(__webpack_require__(/*! ./node/shape/arrow-path */ "./src/node/shape/arrow-path.ts"));
-var ellipse_1 = __importDefault(__webpack_require__(/*! ./node/shape/ellipse */ "./src/node/shape/ellipse.ts"));
-var polygon_1 = __importDefault(__webpack_require__(/*! ./node/shape/polygon */ "./src/node/shape/polygon.ts"));
-var sector_1 = __importDefault(__webpack_require__(/*! ./node/shape/sector */ "./src/node/shape/sector.ts"));
-var equilateral_polygon_1 = __importDefault(__webpack_require__(/*! ./node/shape/equilateral-polygon */ "./src/node/shape/equilateral-polygon.ts"));
-var utils = __importStar(__webpack_require__(/*! ./utils/util */ "./src/utils/util.ts"));
-var mprc = {
+const index_1 = __importDefault(__webpack_require__(/*! ./render/index */ "./src/render/index.ts"));
+const stage_1 = __importDefault(__webpack_require__(/*! ./node/stage */ "./src/node/stage.ts"));
+const group_1 = __importDefault(__webpack_require__(/*! ./node/group */ "./src/node/group.ts"));
+const bitmap_1 = __importDefault(__webpack_require__(/*! ./node/bitmap */ "./src/node/bitmap.ts"));
+const text_1 = __importDefault(__webpack_require__(/*! ./node/text */ "./src/node/text.ts"));
+const graphics_1 = __importDefault(__webpack_require__(/*! ./node/graphics */ "./src/node/graphics.ts"));
+const shape_1 = __importDefault(__webpack_require__(/*! ./node/shape/shape */ "./src/node/shape/shape.ts"));
+const rect_1 = __importDefault(__webpack_require__(/*! ./node/shape/rect */ "./src/node/shape/rect.ts"));
+const circle_1 = __importDefault(__webpack_require__(/*! ./node/shape/circle */ "./src/node/shape/circle.ts"));
+const rounded_rect_1 = __importDefault(__webpack_require__(/*! ./node/shape/rounded-rect */ "./src/node/shape/rounded-rect.ts"));
+const arrow_path_1 = __importDefault(__webpack_require__(/*! ./node/shape/arrow-path */ "./src/node/shape/arrow-path.ts"));
+const ellipse_1 = __importDefault(__webpack_require__(/*! ./node/shape/ellipse */ "./src/node/shape/ellipse.ts"));
+const polygon_1 = __importDefault(__webpack_require__(/*! ./node/shape/polygon */ "./src/node/shape/polygon.ts"));
+const sector_1 = __importDefault(__webpack_require__(/*! ./node/shape/sector */ "./src/node/shape/sector.ts"));
+const equilateral_polygon_1 = __importDefault(__webpack_require__(/*! ./node/shape/equilateral-polygon */ "./src/node/shape/equilateral-polygon.ts"));
+const utils = __importStar(__webpack_require__(/*! ./utils/util */ "./src/utils/util.ts"));
+const mprc = {
     Render: index_1.default,
     Stage: stage_1.default,
     Group: group_1.default,
@@ -911,49 +896,33 @@ exports.default = mprc;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var node_1 = __importDefault(__webpack_require__(/*! ./node */ "./src/node/node.ts"));
-var Bitmap = /** @class */ (function (_super) {
-    __extends(Bitmap, _super);
-    function Bitmap(img) {
-        var _this = _super.call(this) || this;
+const node_1 = __importDefault(__webpack_require__(/*! ./node */ "./src/node/node.ts"));
+class Bitmap extends node_1.default {
+    constructor(img) {
+        super();
         if (Bitmap.cache[img.src]) {
-            _this.img = Bitmap.cache[img.src];
-            _this.rect = [0, 0, _this.img.width, _this.img.height];
-            _this.width = _this.img.width;
-            _this.height = _this.img.height;
+            this.img = Bitmap.cache[img.src];
+            this.rect = [0, 0, this.img.width, this.img.height];
+            this.width = this.img.width;
+            this.height = this.img.height;
         }
         else {
-            _this.img = img;
-            _this.rect = [0, 0, img.width, img.height];
-            _this.width = img.width;
-            _this.height = img.height;
+            this.img = img;
+            this.rect = [0, 0, img.width, img.height];
+            this.width = img.width;
+            this.height = img.height;
             Bitmap.cache[img.src] = img;
         }
-        return _this;
     }
-    Bitmap.prototype.render = function (ctx) {
-        var rect = this.rect;
+    render(ctx) {
+        let rect = this.rect;
         ctx.drawImage(this.img, rect[0], rect[1], rect[2], rect[3], 0, 0, rect[2], rect[3]);
-    };
-    return Bitmap;
-}(node_1.default));
+    }
+}
 Bitmap.cache = {};
 exports.default = Bitmap;
 
@@ -969,25 +938,12 @@ exports.default = Bitmap;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var node_1 = __importDefault(__webpack_require__(/*! ./node */ "./src/node/node.ts"));
-var assMap = {
+const node_1 = __importDefault(__webpack_require__(/*! ./node */ "./src/node/node.ts"));
+const assMap = {
     fillStyle: true,
     strokeStyle: true,
     lineWidth: true,
@@ -996,253 +952,141 @@ var assMap = {
     lineJoin: true,
     miterLimit: true
 };
-var Graphics = /** @class */ (function (_super) {
-    __extends(Graphics, _super);
-    function Graphics() {
-        var _this = _super.call(this) || this;
-        _this.cmds = [];
-        _this.currentGradient = null;
-        return _this;
+class Graphics extends node_1.default {
+    constructor() {
+        super();
+        this.cmds = [];
+        this.currentGradient = null;
     }
-    Graphics.prototype.clearRect = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    clearRect(...params) {
         this.cmds.push(['clearRect', arguments]);
         return this;
-    };
-    Graphics.prototype.rect = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    rect(...params) {
         this.cmds.push(['rect', arguments]);
         return this;
-    };
-    Graphics.prototype.clear = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    clear(...params) {
         this.cmds.length = 0;
         return this;
-    };
-    Graphics.prototype.setLineDash = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    setLineDash(...params) {
         this.cmds.push(['setLineDash', arguments]);
         return this;
-    };
-    Graphics.prototype.strokeRect = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    strokeRect(...params) {
         this.cmds.push(['strokeRect', arguments]);
         return this;
-    };
-    Graphics.prototype.fillRect = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    fillRect(...params) {
         this.cmds.push(['fillRect', arguments]);
         return this;
-    };
-    Graphics.prototype.beginPath = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    beginPath(...params) {
         this.cmds.push(['beginPath', arguments]);
         return this;
-    };
-    Graphics.prototype.arc = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    arc(...params) {
         this.cmds.push(['arc', arguments]);
         return this;
-    };
-    Graphics.prototype.closePath = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    closePath(...params) {
         this.cmds.push(['closePath', arguments]);
         return this;
-    };
-    Graphics.prototype.fillStyle = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    fillStyle(...params) {
         this.cmds.push(['fillStyle', arguments]);
         return this;
-    };
-    Graphics.prototype.fill = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    fill(...params) {
         this.cmds.push(['fill', arguments]);
         return this;
-    };
-    Graphics.prototype.strokeStyle = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    strokeStyle(...params) {
         this.cmds.push(['strokeStyle', arguments]);
         return this;
-    };
-    Graphics.prototype.lineWidth = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    lineWidth(...params) {
         this.cmds.push(['lineWidth', arguments]);
         return this;
-    };
-    Graphics.prototype.lineCap = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    lineCap(...params) {
         this.cmds.push(['lineCap', arguments]);
         return this;
-    };
-    Graphics.prototype.lineDashOffset = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    lineDashOffset(...params) {
         this.cmds.push(['lineDashOffset', arguments]);
         return this;
-    };
-    Graphics.prototype.lineJoin = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    lineJoin(...params) {
         this.cmds.push(['lineJoin', arguments]);
         return this;
-    };
-    Graphics.prototype.miterLimit = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    miterLimit(...params) {
         this.cmds.push(['miterLimit', arguments]);
         return this;
-    };
-    Graphics.prototype.stroke = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    stroke(...params) {
         this.cmds.push(['stroke', arguments]);
         return this;
-    };
-    Graphics.prototype.moveTo = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    moveTo(...params) {
         this.cmds.push(['moveTo', arguments]);
         return this;
-    };
-    Graphics.prototype.lineTo = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    lineTo(...params) {
         this.cmds.push(['lineTo', arguments]);
         return this;
-    };
-    Graphics.prototype.bezierCurveTo = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    bezierCurveTo(...params) {
         this.cmds.push(['bezierCurveTo', arguments]);
         return this;
-    };
-    Graphics.prototype.quadraticCurveTo = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    quadraticCurveTo(...params) {
         this.cmds.push(['quadraticCurveTo', arguments]);
         return this;
-    };
-    Graphics.prototype.createRadialGradient = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    createRadialGradient(...params) {
         this.cmds.push(['createRadialGradient', arguments]);
         return this;
-    };
-    Graphics.prototype.createLinearGradient = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    createLinearGradient(...params) {
         this.cmds.push(['createLinearGradient', arguments]);
         return this;
-    };
-    Graphics.prototype.addColorStop = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    addColorStop(...params) {
         this.cmds.push(['addColorStop', arguments]);
         return this;
-    };
-    Graphics.prototype.fillGradient = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    fillGradient(...params) {
         this.cmds.push(['fillGradient']);
         return this;
-    };
-    Graphics.prototype.arcTo = function () {
-        var params = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            params[_i] = arguments[_i];
-        }
+    }
+    arcTo(...params) {
         this.cmds.push(['arcTo', arguments]);
         return this;
-    };
-    Graphics.prototype.render = function (ctx) {
-        var _this = this;
-        this.cmds.forEach(function (cmd) {
-            var methodName = cmd[0];
+    }
+    render(ctx) {
+        this.cmds.forEach(cmd => {
+            const methodName = cmd[0];
             if (assMap[methodName]) {
                 ctx[methodName] = cmd[1][0];
             }
             else if (methodName === 'addColorStop') {
-                _this.currentGradient && _this.currentGradient.addColorStop(cmd[1][0], cmd[1][1]);
+                this.currentGradient && this.currentGradient.addColorStop(cmd[1][0], cmd[1][1]);
             }
             else if (methodName === 'fillGradient') {
-                ctx.fillStyle = _this.currentGradient;
+                ctx.fillStyle = this.currentGradient;
             }
             else {
-                var result = ctx[methodName].apply(ctx, Array.prototype.slice.call(cmd[1]));
+                let result = ctx[methodName].apply(ctx, Array.prototype.slice.call(cmd[1]));
                 if (methodName === 'createRadialGradient' || methodName === 'createLinearGradient') {
-                    _this.currentGradient = result;
+                    this.currentGradient = result;
                 }
             }
         });
-    };
-    return Graphics;
-}(node_1.default));
+    }
+}
 exports.default = Graphics;
 
 
@@ -1257,69 +1101,54 @@ exports.default = Graphics;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var node_1 = __importDefault(__webpack_require__(/*! ./node */ "./src/node/node.ts"));
-var Group = /** @class */ (function (_super) {
-    __extends(Group, _super);
-    function Group() {
-        var _this = _super.call(this) || this;
-        _this.children = [];
-        _this.mouseChildren = true;
-        return _this;
+const node_1 = __importDefault(__webpack_require__(/*! ./node */ "./src/node/node.ts"));
+class Group extends node_1.default {
+    constructor() {
+        super();
+        this.children = [];
+        this.mouseChildren = true;
     }
-    Group.prototype.add = function () {
-        var len = arguments.length;
-        for (var i = 0; i < len; i++) {
-            var c = arguments[i];
-            var parent_1 = c.parent;
-            if (parent_1) {
-                parent_1.removeChildAt(parent_1.children.indexOf(c));
+    add() {
+        const len = arguments.length;
+        for (let i = 0; i < len; i++) {
+            const c = arguments[i];
+            const parent = c.parent;
+            if (parent) {
+                parent.removeChildAt(parent.children.indexOf(c));
             }
             this.children.push(c);
             c.parent = this;
         }
-    };
-    Group.prototype.addChildAt = function (child, index) {
-        var par = child.parent;
+    }
+    addChildAt(child, index) {
+        let par = child.parent;
         par && par.removeChildAt(par.children.indexOf(child));
         child.parent = this;
         this.children.splice(index, 0, child);
-    };
-    Group.prototype.removeChildAt = function (index) {
-        var child = this.children[index];
+    }
+    removeChildAt(index) {
+        let child = this.children[index];
         if (child) {
             child.parent = null;
         }
         this.children.splice(index, 1);
-    };
-    Group.prototype.replace = function (current, pre) {
-        var index = pre.parent.children.indexOf(pre);
+    }
+    replace(current, pre) {
+        const index = pre.parent.children.indexOf(pre);
         this.removeChildAt(index);
         this.addChildAt(current, index);
-    };
-    Group.prototype.remove = function (child) {
+    }
+    remove(child) {
         if (!child)
             return;
-        var len = arguments.length;
-        var cLen = this.children.length;
-        for (var i = 0; i < len; i++) {
-            for (var j = 0; j < cLen; j++) {
+        const len = arguments.length;
+        let cLen = this.children.length;
+        for (let i = 0; i < len; i++) {
+            for (let j = 0; j < cLen; j++) {
                 if (child.id === this.children[j].id) {
                     child.parent = null;
                     this.children.splice(j, 1);
@@ -1328,27 +1157,27 @@ var Group = /** @class */ (function (_super) {
                 }
             }
         }
-    };
-    Group.prototype.empty = function () {
-        this.children.forEach(function (child) {
+    }
+    empty() {
+        this.children.forEach(child => {
             child.parent = null;
         });
         this.children.length = 0;
-    };
-    Group.prototype.destroy = function () {
+    }
+    destroy() {
         this.empty();
         this.parent && this.parent.destroy();
-    };
-    Group.prototype._getObjectsUnderPoint = function (x, y, hitCtx) {
-        var ctx = hitCtx;
+    }
+    _getObjectsUnderPoint(x, y, hitCtx) {
+        const ctx = hitCtx;
         if (!this._testMask(this, x, y, ctx)) {
             return null;
         }
-        var children = this.children;
-        var l = children.length;
-        for (var i = l - 1; i >= 0; i--) {
-            var child = children[i];
-            var hitBox = child.hitBox;
+        let children = this.children;
+        let l = children.length;
+        for (let i = l - 1; i >= 0; i--) {
+            let child = children[i];
+            let hitBox = child.hitBox;
             if (!child.isVisible() || child.ignoreHit) {
                 continue;
             }
@@ -1356,23 +1185,23 @@ var Group = /** @class */ (function (_super) {
                 continue;
             }
             if (!hitBox && child instanceof Group) {
-                var result = child._getObjectsUnderPoint(x, y, ctx);
+                let result = child._getObjectsUnderPoint(x, y, ctx);
                 if (result)
                     return !this.mouseChildren ? this : result;
             }
             else {
-                var props = child.getConcatenatedDisplayProps(child._props);
-                var mtx = props.matrix;
+                let props = child.getConcatenatedDisplayProps(child._props);
+                let mtx = props.matrix;
                 if (hitBox) {
-                    var mtxClone = mtx.clone();
+                    let mtxClone = mtx.clone();
                     child.setBounds(hitBox[0], hitBox[1], hitBox[2], hitBox[3]);
-                    var bounds = child._getBounds(mtxClone, true);
-                    var AABB = [bounds.x, bounds.y, bounds.width, bounds.height];
+                    let bounds = child._getBounds(mtxClone, true);
+                    let AABB = [bounds.x, bounds.y, bounds.width, bounds.height];
                     if (!this.checkPointInAABB(x, y, AABB)) {
                         continue;
                     }
                     if (child instanceof Group) {
-                        var result = child._getObjectsUnderPoint(x, y, ctx);
+                        let result = child._getObjectsUnderPoint(x, y, ctx);
                         if (result) {
                             return !this.mouseChildren ? this : result;
                         }
@@ -1393,15 +1222,15 @@ var Group = /** @class */ (function (_super) {
             }
         }
         return null;
-    };
-    Group.prototype._testMask = function (target, x, y, hitCtx) {
-        var ctx = hitCtx;
-        var mask = target.mask;
+    }
+    _testMask(target, x, y, hitCtx) {
+        const ctx = hitCtx;
+        const mask = target.mask;
         if (!mask) {
             return true;
         }
-        var mtx = this._props.matrix;
-        var parent = target.parent;
+        let mtx = this._props.matrix;
+        let parent = target.parent;
         mtx = parent ? parent.getConcatenatedMatrix(mtx) : mtx.identity();
         mtx = mask.getMatrix(mask._props.matrix).prependMatrix(mtx);
         ctx.beginPath();
@@ -1415,27 +1244,26 @@ var Group = /** @class */ (function (_super) {
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, 2, 2);
         return true;
-    };
-    Group.prototype._testHit = function (ctx) {
+    }
+    _testHit(ctx) {
         return ctx.getImageData(0, 0, 1, 1).data[3] > 1;
-    };
-    Group.prototype.checkPointInAABB = function (x, y, AABB) {
-        var minX = AABB[0];
+    }
+    checkPointInAABB(x, y, AABB) {
+        let minX = AABB[0];
         if (x < minX)
             return false;
-        var minY = AABB[1];
+        let minY = AABB[1];
         if (y < minY)
             return false;
-        var maxX = minX + AABB[2];
+        let maxX = minX + AABB[2];
         if (x > maxX)
             return false;
-        var maxY = minY + AABB[3];
+        let maxY = minY + AABB[3];
         if (y > maxY)
             return false;
         return true;
-    };
-    return Group;
-}(node_1.default));
+    }
+}
 exports.default = Group;
 
 
@@ -1454,14 +1282,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var uid_1 = __importDefault(__webpack_require__(/*! ../utils/uid */ "./src/utils/uid.ts"));
-var displayProps_1 = __importDefault(__webpack_require__(/*! ../geom/displayProps */ "./src/geom/displayProps.ts"));
-var rectangle_1 = __importDefault(__webpack_require__(/*! ../geom/rectangle */ "./src/geom/rectangle.ts"));
-var matrix2d_1 = __importDefault(__webpack_require__(/*! ../geom/matrix2d */ "./src/geom/matrix2d.js"));
-var _eventListeners = Symbol('eventListeners');
-var _captureEventListeners = Symbol('captureEventListeners');
-var Node = /** @class */ (function () {
-    function Node() {
+const uid_1 = __importDefault(__webpack_require__(/*! ../utils/uid */ "./src/utils/uid.ts"));
+const displayProps_1 = __importDefault(__webpack_require__(/*! ../geom/displayProps */ "./src/geom/displayProps.ts"));
+const rectangle_1 = __importDefault(__webpack_require__(/*! ../geom/rectangle */ "./src/geom/rectangle.ts"));
+const matrix2d_1 = __importDefault(__webpack_require__(/*! ../geom/matrix2d */ "./src/geom/matrix2d.js"));
+const _eventListeners = Symbol('eventListeners');
+const _captureEventListeners = Symbol('captureEventListeners');
+class Node {
+    constructor() {
         this[_eventListeners] = {};
         this[_captureEventListeners] = {};
         this.parent = null;
@@ -1487,39 +1315,31 @@ var Node = /** @class */ (function () {
         this.hitBox = null;
         this.ignoreHit = false;
     }
-    Object.defineProperty(Node.prototype, "stage", {
-        get: function () {
-            var o = this;
-            while (o.parent) {
-                o = o.parent;
-            }
-            if (o.___instanceof === 'Stage')
-                return o;
-            return null;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Node.prototype, "scale", {
-        get: function () {
-            return this.scaleX;
-        },
-        set: function (scale) {
-            this.scaleX = this.scaleY = scale;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Node.prototype.isVisible = function () {
+    get stage() {
+        let o = this;
+        while (o.parent) {
+            o = o.parent;
+        }
+        if (o.___instanceof === 'Stage')
+            return o;
+        return null;
+    }
+    get scale() {
+        return this.scaleX;
+    }
+    set scale(scale) {
+        this.scaleX = this.scaleY = scale;
+    }
+    isVisible() {
         return this.visible && this.alpha > 0 && this.scaleX !== 0 && this.scaleY !== 0;
-    };
-    Node.prototype.clip = function (graphics) {
+    }
+    clip(graphics) {
         this.mask = graphics;
-    };
-    Node.prototype.unclip = function () {
+    }
+    unclip() {
         this.mask = null;
-    };
-    Node.prototype.setTransform = function (x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY) {
+    }
+    setTransform(x, y, scaleX, scaleY, rotation, skewX, skewY, regX, regY) {
         this.x = x || 0;
         this.y = y || 0;
         this.scaleX = scaleX == null ? 1 : scaleX;
@@ -1530,25 +1350,25 @@ var Node = /** @class */ (function () {
         this.regX = regX || 0;
         this.regY = regY || 0;
         return this;
-    };
-    Node.prototype.getMatrix = function (matrix) {
-        var o = this;
-        var mtx = matrix || new matrix2d_1.default();
+    }
+    getMatrix(matrix) {
+        let o = this;
+        let mtx = matrix || new matrix2d_1.default();
         return (mtx.identity() &&
             mtx.appendTransform(o.x, o.y, o.scaleX, o.scaleY, o.rotation, o.skewX, o.skewY, o.regX, o.regY));
-    };
-    Node.prototype.getConcatenatedMatrix = function (matrix) {
-        var o = this;
-        var mtx = this.getMatrix(matrix);
+    }
+    getConcatenatedMatrix(matrix) {
+        let o = this;
+        let mtx = this.getMatrix(matrix);
         while ((o = o.parent)) {
             mtx.prependMatrix(o.getMatrix(o._props.matrix));
         }
         return mtx;
-    };
-    Node.prototype.getConcatenatedDisplayProps = function (props) {
+    }
+    getConcatenatedDisplayProps(props) {
         props = props ? props.identity() : new displayProps_1.default();
-        var o = this;
-        var mtx = o.getMatrix(props.matrix);
+        let o = this;
+        let mtx = o.getMatrix(props.matrix);
         do {
             props.prepend(o.visible, o.alpha, o.shadow, o.compositeOperation);
             if (o != this) {
@@ -1556,31 +1376,31 @@ var Node = /** @class */ (function () {
             }
         } while ((o = o.parent));
         return props;
-    };
-    Node.prototype.getBounds = function () {
+    }
+    getBounds() {
         if (this._bounds) {
             return this._rectangle.copy(this._bounds);
         }
         return null;
-    };
-    Node.prototype.setBounds = function (x, y, width, height) {
+    }
+    setBounds(x, y, width, height) {
         if (x === null) {
             this._bounds = x;
             return;
         }
         this._bounds = (this._bounds || new rectangle_1.default()).setValues(x, y, width, height);
-    };
-    Node.prototype.getTransformedBounds = function () {
+    }
+    getTransformedBounds() {
         return this._getBounds();
-    };
-    Node.prototype._getBounds = function (matrix, ignoreTransform) {
+    }
+    _getBounds(matrix, ignoreTransform) {
         return this._transformBounds(this.getBounds(), matrix, ignoreTransform);
-    };
-    Node.prototype._transformBounds = function (bounds, matrix, ignoreTransform) {
+    }
+    _transformBounds(bounds, matrix, ignoreTransform) {
         if (!bounds) {
             return bounds;
         }
-        var x = bounds.x, y = bounds.y, width = bounds.width, height = bounds.height, mtx = this._props.matrix;
+        let x = bounds.x, y = bounds.y, width = bounds.width, height = bounds.height, mtx = this._props.matrix;
         mtx = ignoreTransform ? mtx.identity() : this.getMatrix(mtx);
         if (x || y) {
             mtx.appendTransform(0, 0, 1, 1, 0, 0, 0, -x, -y);
@@ -1588,10 +1408,10 @@ var Node = /** @class */ (function () {
         if (matrix) {
             mtx.prependMatrix(matrix);
         }
-        var x_a = width * mtx.a, x_b = width * mtx.b;
-        var y_c = height * mtx.c, y_d = height * mtx.d;
-        var tx = mtx.tx, ty = mtx.ty;
-        var minX = tx, maxX = tx, minY = ty, maxY = ty;
+        let x_a = width * mtx.a, x_b = width * mtx.b;
+        let y_c = height * mtx.c, y_d = height * mtx.d;
+        let tx = mtx.tx, ty = mtx.ty;
+        let minX = tx, maxX = tx, minY = ty, maxY = ty;
         if ((x = x_a + tx) < minX) {
             minX = x;
         }
@@ -1629,31 +1449,31 @@ var Node = /** @class */ (function () {
             maxY = y;
         }
         return bounds.setValues(minX, minY, maxX - minX, maxY - minY);
-    };
-    Node.prototype.on = function (type, listener, options) {
+    }
+    on(type, listener, options) {
         this.addEventListener(type, listener, options);
-    };
-    Node.prototype.off = function (type, listener, options) {
+    }
+    off(type, listener, options) {
         this.removeEventListener(type, listener, options);
-    };
-    Node.prototype.addEventListener = function (type, listener, options) {
+    }
+    addEventListener(type, listener, options) {
         if (typeof options === 'boolean')
             options = { capture: options };
-        var _a = options || {}, capture = _a.capture, once = _a.once;
-        var eventListeners = capture ? _captureEventListeners : _eventListeners;
+        const { capture, once } = options || {};
+        const eventListeners = capture ? _captureEventListeners : _eventListeners;
         this[eventListeners][type] = this[eventListeners][type] || [];
-        this[eventListeners][type].push({ listener: listener, once: once });
+        this[eventListeners][type].push({ listener, once });
         return this;
-    };
-    Node.prototype.removeEventListener = function (type, listener, options) {
+    }
+    removeEventListener(type, listener, options) {
         if (typeof options === 'boolean')
             options = { capture: options };
-        var capture = (options || {}).capture;
-        var eventListeners = capture ? _captureEventListeners : _eventListeners;
+        const { capture } = options || {};
+        const eventListeners = capture ? _captureEventListeners : _eventListeners;
         if (this[eventListeners][type]) {
-            var listeners = this[eventListeners][type];
-            for (var i = 0; i < listeners.length; i++) {
-                var _listener = listeners[i].listener;
+            const listeners = this[eventListeners][type];
+            for (let i = 0; i < listeners.length; i++) {
+                const { listener: _listener } = listeners[i];
                 if (listener === _listener) {
                     this[eventListeners][type].splice(i, 1);
                     break;
@@ -1661,64 +1481,50 @@ var Node = /** @class */ (function () {
             }
         }
         return this;
-    };
-    Node.prototype.dispatchEvent = function (event) {
-        var _this = this;
+    }
+    dispatchEvent(event) {
         event.target = this;
-        var type = event.type;
-        var elements = [this];
-        var parent = this.parent;
+        const type = event.type;
+        const elements = [this];
+        let parent = this.parent;
         while (event.bubbles && parent) {
             elements.push(parent);
             parent = parent.parent;
         }
-        var _loop_1 = function (i) {
-            var element = elements[i];
-            var listeners = element[_captureEventListeners] && element[_captureEventListeners][type];
+        // capture phase
+        for (let i = elements.length - 1; i >= 0; i--) {
+            const element = elements[i];
+            const listeners = element[_captureEventListeners] && element[_captureEventListeners][type];
             if (listeners && listeners.length) {
-                listeners.forEach(function (_a) {
-                    var listener = _a.listener, once = _a.once;
-                    listener.call(_this, event);
+                listeners.forEach(({ listener, once }) => {
+                    listener.call(this, event);
                     if (once) {
                         element.removeEventListener(event.type, listener, { capture: true });
                     }
                 });
             }
             if (!event.bubbles && event.cancelBubble)
-                return "break";
-        };
-        // capture phase
-        for (var i = elements.length - 1; i >= 0; i--) {
-            var state_1 = _loop_1(i);
-            if (state_1 === "break")
                 break;
         }
         // bubbling
         if (!event.cancelBubble) {
-            var _loop_2 = function (i) {
-                var element = elements[i];
-                var listeners = element[_eventListeners] && element[_eventListeners][type];
+            for (let i = 0; i < elements.length; i++) {
+                const element = elements[i];
+                const listeners = element[_eventListeners] && element[_eventListeners][type];
                 if (listeners && listeners.length) {
-                    listeners.forEach(function (_a) {
-                        var listener = _a.listener, once = _a.once;
-                        listener.call(_this, event);
+                    listeners.forEach(({ listener, once }) => {
+                        listener.call(this, event);
                         if (once) {
                             element.removeEventListener(event.type, listener, { capture: false });
                         }
                     });
                 }
                 if (!event.bubbles || event.cancelBubble)
-                    return "break";
-            };
-            for (var i = 0; i < elements.length; i++) {
-                var state_2 = _loop_2(i);
-                if (state_2 === "break")
                     break;
             }
         }
-    };
-    return Node;
-}());
+    }
+}
 exports.default = Node;
 
 
@@ -1733,55 +1539,40 @@ exports.default = Node;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
-var ArrowPath = /** @class */ (function (_super) {
-    __extends(ArrowPath, _super);
-    function ArrowPath(path, option) {
-        var _this = _super.call(this) || this;
-        _this.path = path;
-        _this.option = Object.assign({
+const shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+class ArrowPath extends shape_1.default {
+    constructor(path, option) {
+        super();
+        this.path = path;
+        this.option = Object.assign({
             strokeStyle: 'black',
             lineWidth: 1,
             headSize: 10
         }, option);
-        return _this;
     }
-    ArrowPath.prototype.draw = function () {
-        var path = this.path;
+    draw() {
+        const path = this.path;
         this.beginPath();
-        var len = path.length;
+        const len = path.length;
         if (len === 2) {
             this.drawArrow(path[0].x, path[0].y, path[1].x, path[1].y, 30);
         }
         else {
             this.moveTo(path[0].x, path[0].y);
-            for (var i = 1; i < len - 1; i++) {
+            for (let i = 1; i < len - 1; i++) {
                 this.lineTo(path[i].x, path[i].y);
             }
             this.drawArrow(path[len - 2].x, path[len - 2].y, path[len - 1].x, path[len - 1].y, 30);
         }
         this.stroke();
-    };
-    ArrowPath.prototype.drawArrow = function (fromX, fromY, toX, toY, theta) {
-        var angle = (Math.atan2(fromY - toY, fromX - toX) * 180) / Math.PI, angle1 = ((angle + theta) * Math.PI) / 180, angle2 = ((angle - theta) * Math.PI) / 180, hs = this.option.headSize, topX = hs * Math.cos(angle1), topY = hs * Math.sin(angle1), botX = hs * Math.cos(angle2), botY = hs * Math.sin(angle2);
-        var arrowX = fromX - topX, arrowY = fromY - topY;
+    }
+    drawArrow(fromX, fromY, toX, toY, theta) {
+        let angle = (Math.atan2(fromY - toY, fromX - toX) * 180) / Math.PI, angle1 = ((angle + theta) * Math.PI) / 180, angle2 = ((angle - theta) * Math.PI) / 180, hs = this.option.headSize, topX = hs * Math.cos(angle1), topY = hs * Math.sin(angle1), botX = hs * Math.cos(angle2), botY = hs * Math.sin(angle2);
+        let arrowX = fromX - topX, arrowY = fromY - topY;
         this.moveTo(arrowX, arrowY);
         this.moveTo(fromX, fromY);
         this.lineTo(toX, toY);
@@ -1794,9 +1585,8 @@ var ArrowPath = /** @class */ (function (_super) {
         this.lineTo(arrowX, arrowY);
         this.strokeStyle(this.option.strokeStyle);
         this.lineWidth(this.option.lineWidth);
-    };
-    return ArrowPath;
-}(shape_1.default));
+    }
+}
 exports.default = ArrowPath;
 
 
@@ -1811,34 +1601,19 @@ exports.default = ArrowPath;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
-var Circle = /** @class */ (function (_super) {
-    __extends(Circle, _super);
-    function Circle(r, option) {
-        var _this = _super.call(this) || this;
-        _this.option = option || {};
-        _this.r = r;
-        _this._dp = Math.PI * 2;
-        return _this;
+const shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+class Circle extends shape_1.default {
+    constructor(r, option) {
+        super();
+        this.option = option || {};
+        this.r = r;
+        this._dp = Math.PI * 2;
     }
-    Circle.prototype.draw = function () {
+    draw() {
         this.beginPath();
         this.arc(0, 0, this.r, 0, this._dp, false);
         if (this.option.strokeStyle) {
@@ -1852,9 +1627,8 @@ var Circle = /** @class */ (function (_super) {
             this.fillStyle(this.option.fillStyle);
             this.fill();
         }
-    };
-    return Circle;
-}(shape_1.default));
+    }
+}
 exports.default = Circle;
 
 
@@ -1869,43 +1643,28 @@ exports.default = Circle;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
-var Ellipse = /** @class */ (function (_super) {
-    __extends(Ellipse, _super);
-    function Ellipse(width, height, option) {
-        var _this = _super.call(this) || this;
-        _this.option = option || {};
-        _this.width = width;
-        _this.height = height;
-        return _this;
+const shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+class Ellipse extends shape_1.default {
+    constructor(width, height, option) {
+        super();
+        this.option = option || {};
+        this.width = width;
+        this.height = height;
     }
-    Ellipse.prototype.draw = function () {
-        var w = this.width;
-        var h = this.height;
-        var k = 0.5522848;
-        var ox = (w / 2) * k;
-        var oy = (h / 2) * k;
-        var xe = w;
-        var ye = h;
-        var xm = w / 2;
-        var ym = h / 2;
+    draw() {
+        const w = this.width;
+        const h = this.height;
+        const k = 0.5522848;
+        const ox = (w / 2) * k;
+        const oy = (h / 2) * k;
+        const xe = w;
+        const ye = h;
+        const xm = w / 2;
+        const ym = h / 2;
         this.beginPath();
         this.moveTo(0, ym);
         this.bezierCurveTo(0, ym - oy, xm - ox, 0, xm, 0);
@@ -1923,9 +1682,8 @@ var Ellipse = /** @class */ (function (_super) {
             this.fillStyle(this.option.fillStyle);
             this.fill();
         }
-    };
-    return Ellipse;
-}(shape_1.default));
+    }
+}
 exports.default = Ellipse;
 
 
@@ -1940,40 +1698,25 @@ exports.default = Ellipse;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
-var EquilateralPolygon = /** @class */ (function (_super) {
-    __extends(EquilateralPolygon, _super);
-    function EquilateralPolygon(num, r, options) {
-        var _this = _super.call(this) || this;
-        _this.num = num;
-        _this.r = r;
-        _this.options = options || {};
-        _this.vertex = [];
-        _this.initVertex();
-        return _this;
+const shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+class EquilateralPolygon extends shape_1.default {
+    constructor(num, r, options) {
+        super();
+        this.num = num;
+        this.r = r;
+        this.options = options || {};
+        this.vertex = [];
+        this.initVertex();
     }
-    EquilateralPolygon.prototype.initVertex = function () {
+    initVertex() {
         this.vertex.length = [];
-        var num = this.num;
-        var r = this.r;
-        var i, startX, startY, newX, newY;
+        const num = this.num;
+        const r = this.r;
+        let i, startX, startY, newX, newY;
         if (num % 2 === 0) {
             startX = r * Math.cos((2 * Math.PI * 0) / num);
             startY = r * Math.sin((2 * Math.PI * 0) / num);
@@ -1994,11 +1737,11 @@ var EquilateralPolygon = /** @class */ (function (_super) {
                 this.vertex.push([newX, newY]);
             }
         }
-    };
-    EquilateralPolygon.prototype.draw = function () {
+    }
+    draw() {
         this.beginPath();
         this.moveTo(this.vertex[0][0], this.vertex[0][1]);
-        for (var i = 1, len = this.vertex.length; i < len; i++) {
+        for (let i = 1, len = this.vertex.length; i < len; i++) {
             this.lineTo(this.vertex[i][0], this.vertex[i][1]);
         }
         this.closePath();
@@ -2013,9 +1756,8 @@ var EquilateralPolygon = /** @class */ (function (_super) {
             }
             this.stroke();
         }
-    };
-    return EquilateralPolygon;
-}(shape_1.default));
+    }
+}
 exports.default = EquilateralPolygon;
 
 
@@ -2030,39 +1772,24 @@ exports.default = EquilateralPolygon;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
-var Polygon = /** @class */ (function (_super) {
-    __extends(Polygon, _super);
-    function Polygon(vertex, options) {
-        var _this = _super.call(this) || this;
-        _this.vertex = vertex || [];
-        _this.options = options || {};
-        _this.strokeColor = _this.options.strokeColor;
-        _this.fillColor = _this.options.fillColor;
-        return _this;
+const shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+class Polygon extends shape_1.default {
+    constructor(vertex, options) {
+        super();
+        this.vertex = vertex || [];
+        this.options = options || {};
+        this.strokeColor = this.options.strokeColor;
+        this.fillColor = this.options.fillColor;
     }
-    Polygon.prototype.draw = function () {
+    draw() {
         this.clear().beginPath();
         this.strokeStyle(this.strokeColor);
         this.moveTo(this.vertex[0][0], this.vertex[0][1]);
-        for (var i = 1, len = this.vertex.length; i < len; i++) {
+        for (let i = 1, len = this.vertex.length; i < len; i++) {
             this.lineTo(this.vertex[i][0], this.vertex[i][1]);
         }
         this.closePath();
@@ -2081,9 +1808,8 @@ var Polygon = /** @class */ (function (_super) {
             this.fillStyle(this.fillColor);
             this.fill();
         }
-    };
-    return Polygon;
-}(shape_1.default));
+    }
+}
 exports.default = Polygon;
 
 
@@ -2098,34 +1824,19 @@ exports.default = Polygon;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
-var Rect = /** @class */ (function (_super) {
-    __extends(Rect, _super);
-    function Rect(width, height, option) {
-        var _this = _super.call(this) || this;
-        _this.width = width;
-        _this.height = height;
-        _this.option = option || {};
-        return _this;
+const shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+class Rect extends shape_1.default {
+    constructor(width, height, option) {
+        super();
+        this.width = width;
+        this.height = height;
+        this.option = option || {};
     }
-    Rect.prototype.draw = function () {
+    draw() {
         if (this.option.fillStyle) {
             this.fillStyle(this.option.fillStyle);
             this.fillRect(0, 0, this.width, this.height);
@@ -2137,9 +1848,8 @@ var Rect = /** @class */ (function (_super) {
             }
             this.strokeRect(0, 0, this.width, this.height);
         }
-    };
-    return Rect;
-}(shape_1.default));
+    }
+}
 exports.default = Rect;
 
 
@@ -2154,43 +1864,28 @@ exports.default = Rect;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
-var RoundedRect = /** @class */ (function (_super) {
-    __extends(RoundedRect, _super);
-    function RoundedRect(width, height, r, option) {
-        var _this = _super.call(this) || this;
-        _this.option = Object.assign({
+const shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+class RoundedRect extends shape_1.default {
+    constructor(width, height, r, option) {
+        super();
+        this.option = Object.assign({
             lineWidth: 1,
             lt: true,
             rt: true,
             lb: true,
             rb: true
         }, option);
-        _this.r = r || 0;
-        _this.width = width;
-        _this.height = height;
-        return _this;
+        this.r = r || 0;
+        this.width = width;
+        this.height = height;
     }
-    RoundedRect.prototype.draw = function () {
-        var width = this.width, height = this.height, r = this.r;
-        var ax = r, ay = 0, bx = width, by = 0, cx = width, cy = height, dx = 0, dy = height, ex = 0, ey = 0;
+    draw() {
+        const width = this.width, height = this.height, r = this.r;
+        const ax = r, ay = 0, bx = width, by = 0, cx = width, cy = height, dx = 0, dy = height, ex = 0, ey = 0;
         this.beginPath();
         this.moveTo(ax, ay);
         if (this.option.rt) {
@@ -2227,9 +1922,8 @@ var RoundedRect = /** @class */ (function (_super) {
             this.strokeStyle(this.option.strokeStyle);
             this.stroke();
         }
-    };
-    return RoundedRect;
-}(shape_1.default));
+    }
+}
 exports.default = RoundedRect;
 
 
@@ -2244,35 +1938,20 @@ exports.default = RoundedRect;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
-var Sector = /** @class */ (function (_super) {
-    __extends(Sector, _super);
-    function Sector(r, from, to, option) {
-        var _this = _super.call(this) || this;
-        _this.option = option || {};
-        _this.r = r;
-        _this.from = from;
-        _this.to = to;
-        return _this;
+const shape_1 = __importDefault(__webpack_require__(/*! ./shape */ "./src/node/shape/shape.ts"));
+class Sector extends shape_1.default {
+    constructor(r, from, to, option) {
+        super();
+        this.option = option || {};
+        this.r = r;
+        this.from = from;
+        this.to = to;
     }
-    Sector.prototype.draw = function () {
+    draw() {
         this.beginPath()
             .moveTo(0, 0)
             .arc(0, 0, this.r, this.from, this.to)
@@ -2282,9 +1961,8 @@ var Sector = /** @class */ (function (_super) {
             .strokeStyle(this.option.strokeStyle)
             .lineWidth(this.option.lineWidth)
             .stroke();
-    };
-    return Sector;
-}(shape_1.default));
+    }
+}
 exports.default = Sector;
 
 
@@ -2299,37 +1977,19 @@ exports.default = Sector;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var graphics_1 = __importDefault(__webpack_require__(/*! ../graphics */ "./src/node/graphics.ts"));
-var Shape = /** @class */ (function (_super) {
-    __extends(Shape, _super);
-    function Shape() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Shape.prototype.draw = function () { };
-    Shape.prototype.render = function (ctx) {
+const graphics_1 = __importDefault(__webpack_require__(/*! ../graphics */ "./src/node/graphics.ts"));
+class Shape extends graphics_1.default {
+    draw() { }
+    render(ctx) {
         this.clear();
         this.draw();
-        _super.prototype.render.call(this, ctx);
-    };
-    return Shape;
-}(graphics_1.default));
+        super.render(ctx);
+    }
+}
 exports.default = Shape;
 
 
@@ -2344,64 +2004,49 @@ exports.default = Shape;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var group_1 = __importDefault(__webpack_require__(/*! ./group */ "./src/node/group.ts"));
-var index_1 = __importDefault(__webpack_require__(/*! ../render/index */ "./src/render/index.ts"));
-var event_1 = __importDefault(__webpack_require__(/*! ../event/event */ "./src/event/event.ts"));
-var Stage = /** @class */ (function (_super) {
-    __extends(Stage, _super);
-    function Stage(container, width, height) {
-        var _this = _super.call(this) || this;
-        _this.container = container;
-        _this.width = width;
-        _this.height = height;
-        var ctx = container.getContext('2d');
+const group_1 = __importDefault(__webpack_require__(/*! ./group */ "./src/node/group.ts"));
+const index_1 = __importDefault(__webpack_require__(/*! ../render/index */ "./src/render/index.ts"));
+const event_1 = __importDefault(__webpack_require__(/*! ../event/event */ "./src/event/event.ts"));
+class Stage extends group_1.default {
+    constructor(container, width, height) {
+        super();
+        this.container = container;
+        this.width = width;
+        this.height = height;
+        const ctx = container.getContext('2d');
         // @ts-ignore
-        var dpr = wx.getSystemInfoSync().pixelRatio;
+        const dpr = wx.getSystemInfoSync().pixelRatio;
         container.width = width * dpr;
         container.height = height * dpr;
         ctx.scale(dpr, dpr);
-        _this.dpr = dpr;
-        _this.ctx = ctx;
-        _this.render = new index_1.default(ctx, container.width, container.height);
-        _this.hitCtx = null;
-        _this.touchObject = null;
-        _this.___instanceof = 'Stage';
-        return _this;
+        this.dpr = dpr;
+        this.ctx = ctx;
+        this.render = new index_1.default(ctx, container.width, container.height);
+        this.hitCtx = null;
+        this.touchObject = null;
+        this.___instanceof = 'Stage';
     }
-    Stage.prototype.update = function () {
+    update() {
         this.render.update(this);
-    };
-    Stage.prototype.setHitCanvas = function (hitCanvas) {
-        var hitCtx = hitCanvas.getContext('2d');
+    }
+    setHitCanvas(hitCanvas) {
+        const hitCtx = hitCanvas.getContext('2d');
         hitCanvas.width = this.width;
         hitCanvas.height = this.height;
         this.hitCtx = hitCtx;
-    };
-    Stage.prototype.getTextWidth = function (text, font) {
+    }
+    getTextWidth(text, font) {
         this.ctx.font = font;
         return this.ctx.measureText(text).width;
-    };
-    Stage.prototype.loadImage = function (url) {
-        var canvas = this.container;
-        return new Promise(function (resolve, reject) {
-            var image = canvas.createImage();
+    }
+    loadImage(url) {
+        const canvas = this.container;
+        return new Promise((resolve, reject) => {
+            const image = canvas.createImage();
             image.src = url;
             image.onload = function () {
                 resolve(image);
@@ -2410,25 +2055,25 @@ var Stage = /** @class */ (function (_super) {
                 reject(error);
             };
         });
-    };
-    Stage.prototype.touchStartHandler = function (evt) {
-        var p1 = evt.touches[0];
+    }
+    touchStartHandler(evt) {
+        const p1 = evt.touches[0];
         evt.stageX = Math.round(p1.x);
         evt.stageY = Math.round(p1.y);
-        var obj = this.getObjectUnderPoint(evt);
+        let obj = this.getObjectUnderPoint(evt);
         this.touchObject = obj;
         this._mouseDownX = evt.stageX;
         this._mouseDownY = evt.stageY;
         this.preStageX = evt.stageX;
         this.preStageY = evt.stageY;
         this.__dispatchEvent(obj, evt);
-    };
-    Stage.prototype.touchMoveHandler = function (evt) {
-        var p1 = evt.touches[0];
-        var touchesLength = evt.touches.length;
+    }
+    touchMoveHandler(evt) {
+        const p1 = evt.touches[0];
+        const touchesLength = evt.touches.length;
         evt.stageX = Math.round(p1.x);
         evt.stageY = Math.round(p1.y);
-        var mockEvt = new event_1.default();
+        let mockEvt = new event_1.default();
         mockEvt.stageX = evt.stageX;
         mockEvt.stageY = evt.stageY;
         mockEvt.originalEvent = evt;
@@ -2441,12 +2086,12 @@ var Stage = /** @class */ (function (_super) {
             this.touchObject.dispatchEvent(mockEvt);
         }
         this.__dispatchEvent(this.touchObject, evt);
-    };
-    Stage.prototype.touchEndHandler = function (evt) {
-        var p1 = evt.changedTouches[0];
+    }
+    touchEndHandler(evt) {
+        const p1 = evt.changedTouches[0];
         evt.stageX = Math.round(p1.x);
         evt.stageY = Math.round(p1.y);
-        var obj = this.getObjectUnderPoint(evt);
+        let obj = this.getObjectUnderPoint(evt);
         this._mouseUpX = evt.stageX;
         this._mouseUpY = evt.stageY;
         this.__dispatchEvent(this.touchObject, evt);
@@ -2456,31 +2101,30 @@ var Stage = /** @class */ (function (_super) {
         if (obj &&
             Math.abs(this._mouseDownX - this._mouseUpX) < 10 &&
             Math.abs(this._mouseDownY - this._mouseUpY) < 10) {
-            var mockEvt = new event_1.default();
+            let mockEvt = new event_1.default();
             mockEvt.stageX = evt.stageX;
             mockEvt.stageY = evt.stageY;
             mockEvt.originalEvent = evt;
             mockEvt.type = 'tap';
             obj.dispatchEvent(mockEvt);
         }
-    };
-    Stage.prototype.getObjectUnderPoint = function (evt) {
-        var x = evt.stageX;
-        var y = evt.stageY;
+    }
+    getObjectUnderPoint(evt) {
+        const x = evt.stageX;
+        const y = evt.stageY;
         return this._getObjectsUnderPoint(x, y, this.hitCtx) || this;
-    };
-    Stage.prototype.__dispatchEvent = function (obj, evt) {
+    }
+    __dispatchEvent(obj, evt) {
         if (!obj)
             return;
-        var mockEvt = new event_1.default();
+        let mockEvt = new event_1.default();
         mockEvt.stageX = evt.stageX;
         mockEvt.stageY = evt.stageY;
         mockEvt.originalEvent = evt;
         mockEvt.type = evt.type;
         obj.dispatchEvent(mockEvt);
-    };
-    return Stage;
-}(group_1.default));
+    }
+}
 exports.default = Stage;
 
 
@@ -2495,45 +2139,29 @@ exports.default = Stage;
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var node_1 = __importDefault(__webpack_require__(/*! ./node */ "./src/node/node.ts"));
-var Text = /** @class */ (function (_super) {
-    __extends(Text, _super);
-    function Text(text, option) {
-        var _this = _super.call(this) || this;
-        _this.text = text;
+const node_1 = __importDefault(__webpack_require__(/*! ./node */ "./src/node/node.ts"));
+class Text extends node_1.default {
+    constructor(text, option) {
+        super();
+        this.text = text;
         option = option || {};
-        _this.font = option.font || '10px sans-serif';
-        _this.color = option.color || 'black';
-        _this.textAlign = option.textAlign || 'left';
-        _this.baseline = option.baseline || 'top';
-        return _this;
+        this.font = option.font || '10px sans-serif';
+        this.color = option.color || 'black';
+        this.textAlign = option.textAlign || 'left';
+        this.baseline = option.baseline || 'top';
     }
-    Text.prototype.render = function (ctx) {
+    render(ctx) {
         ctx.font = this.font;
         ctx.fillStyle = this.color;
         ctx.textAlign = this.textAlign;
         ctx.textBaseline = this.baseline;
         ctx.fillText(this.text, 0, 0);
-    };
-    return Text;
-}(node_1.default));
+    }
+}
 exports.default = Text;
 
 
@@ -2552,28 +2180,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var group_1 = __importDefault(__webpack_require__(/*! ../node/group */ "./src/node/group.ts"));
-var Render = /** @class */ (function () {
-    function Render(ctx, width, height) {
+const group_1 = __importDefault(__webpack_require__(/*! ../node/group */ "./src/node/group.ts"));
+class Render {
+    constructor(ctx, width, height) {
         this.ctx = ctx;
         this.width = width;
         this.height = height;
     }
-    Render.prototype.update = function (stage) {
+    update(stage) {
         this.clear(this.ctx, this.width, this.height);
         this.render(this.ctx, stage);
-    };
-    Render.prototype.clear = function (ctx, width, height) {
+    }
+    clear(ctx, width, height) {
         ctx.clearRect(0, 0, width, height);
-    };
-    Render.prototype.render = function (ctx, o) {
-        var mtx = o._props.matrix;
+    }
+    render(ctx, o) {
+        let mtx = o._props.matrix;
         o.getMatrix(mtx);
         if (o.children) {
-            var list = o.children.slice(0);
-            var l = list.length;
-            for (var i = 0; i < l; i++) {
-                var child = list[i];
+            let list = o.children.slice(0);
+            let l = list.length;
+            for (let i = 0; i < l; i++) {
+                let child = list[i];
                 if (!child.isVisible()) {
                     continue;
                 }
@@ -2585,9 +2213,9 @@ var Render = /** @class */ (function () {
         else {
             this._render(ctx, o, mtx);
         }
-    };
-    Render.prototype._render = function (ctx, o, mtx) {
-        var mask = o.mask;
+    }
+    _render(ctx, o, mtx) {
+        let mask = o.mask;
         if (mtx) {
             ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
         }
@@ -2603,7 +2231,7 @@ var Render = /** @class */ (function () {
         }
         o.getMatrix(mtx);
         ctx.transform(mtx.a, mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty);
-        var props = o.getConcatenatedDisplayProps(o._props);
+        let props = o.getConcatenatedDisplayProps(o._props);
         mtx = props.matrix;
         ctx.globalAlpha *= o._props.alpha;
         if (o.compositeOperation) {
@@ -2613,9 +2241,9 @@ var Render = /** @class */ (function () {
             this._applyShadow(ctx, o.shadow);
         }
         if (o instanceof group_1.default) {
-            var list = o.children.slice(0);
-            var l = list.length;
-            for (var i = 0; i < l; i++) {
+            let list = o.children.slice(0);
+            let l = list.length;
+            for (let i = 0; i < l; i++) {
                 ctx.save();
                 this._render(ctx, list[i]);
                 ctx.restore();
@@ -2624,16 +2252,15 @@ var Render = /** @class */ (function () {
         else {
             o.render(ctx);
         }
-    };
-    Render.prototype._applyShadow = function (ctx, shadow) {
+    }
+    _applyShadow(ctx, shadow) {
         shadow = shadow;
         ctx.shadowColor = shadow.color;
         ctx.shadowOffsetX = shadow.offsetX;
         ctx.shadowOffsetY = shadow.offsetY;
         ctx.shadowBlur = shadow.blur;
-    };
-    return Render;
-}());
+    }
+}
 exports.default = Render;
 
 
@@ -2649,7 +2276,7 @@ exports.default = Render;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var UID = {
+let UID = {
     _nextID: 0,
     get: function () {
         return UID._nextID++;
@@ -2672,8 +2299,8 @@ exports.default = UID;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loadImage = void 0;
 function loadImage(url, canvas) {
-    return new Promise(function (resolve, reject) {
-        var image = canvas.createImage();
+    return new Promise((resolve, reject) => {
+        const image = canvas.createImage();
         image.src = url;
         image.onload = function () {
             resolve(image);
