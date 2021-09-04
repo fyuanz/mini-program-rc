@@ -15,8 +15,10 @@ import Sector from './node/shape/sector';
 import EquilateralPolygon from './node/shape/equilateral-polygon';
 
 import * as utils from './utils/util';
+import { ScriptEvent } from './event/event';
 
-const mprc = {
+
+const cax = {
   Render,
   Stage,
   Group,
@@ -32,7 +34,26 @@ const mprc = {
   Polygon,
   Sector,
   EquilateralPolygon,
-  loadImage: utils.loadImage
+  loadImage: utils.loadImage,
 };
 
-export default mprc;
+export default cax;
+
+export type {
+  Render,
+  Stage,
+  Group,
+  Bitmap,
+  Text,
+  Graphics,
+  Shape,
+  Rect,
+  Circle,
+  RoundedRect,
+  ArrowPath,
+  Ellipse,
+  Polygon,
+  Sector,
+  EquilateralPolygon,
+  ScriptEvent
+}

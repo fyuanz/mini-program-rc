@@ -3,7 +3,7 @@ export default class Group extends Node {
     children: Array<any>;
     mouseChildren: boolean;
     constructor();
-    add(): void;
+    add(child: any): void;
     addChildAt(child: any, index: number): void;
     removeChildAt(index: number): void;
     replace(current: number, pre: any): void;

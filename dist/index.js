@@ -864,7 +864,7 @@ const polygon_1 = __importDefault(__webpack_require__(/*! ./node/shape/polygon *
 const sector_1 = __importDefault(__webpack_require__(/*! ./node/shape/sector */ "./src/node/shape/sector.ts"));
 const equilateral_polygon_1 = __importDefault(__webpack_require__(/*! ./node/shape/equilateral-polygon */ "./src/node/shape/equilateral-polygon.ts"));
 const utils = __importStar(__webpack_require__(/*! ./utils/util */ "./src/utils/util.ts"));
-const mprc = {
+const cax = {
     Render: index_1.default,
     Stage: stage_1.default,
     Group: group_1.default,
@@ -880,9 +880,9 @@ const mprc = {
     Polygon: polygon_1.default,
     Sector: sector_1.default,
     EquilateralPolygon: equilateral_polygon_1.default,
-    loadImage: utils.loadImage
+    loadImage: utils.loadImage,
 };
-exports.default = mprc;
+exports.default = cax;
 
 
 /***/ }),
@@ -1112,7 +1112,7 @@ class Group extends node_1.default {
         this.children = [];
         this.mouseChildren = true;
     }
-    add() {
+    add(child) {
         const len = arguments.length;
         for (let i = 0; i < len; i++) {
             const c = arguments[i];
@@ -1259,9 +1259,7 @@ class Group extends node_1.default {
         if (x > maxX)
             return false;
         let maxY = minY + AABB[3];
-        if (y > maxY)
-            return false;
-        return true;
+        return y <= maxY;
     }
 }
 exports.default = Group;

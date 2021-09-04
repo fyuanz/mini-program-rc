@@ -13,44 +13,25 @@ import Ellipse from './node/shape/ellipse';
 import Polygon from './node/shape/polygon';
 import Sector from './node/shape/sector';
 import EquilateralPolygon from './node/shape/equilateral-polygon';
-import Event from './event/event'
 import * as utils from './utils/util';
-
+import { ScriptEvent } from './event/event';
 declare const cax: {
-  Render: typeof Render;
-  Stage: typeof Stage;
-  Group: typeof Group;
-  Bitmap: typeof Bitmap;
-  Text: typeof Text;
-  Graphics: typeof Graphics;
-  Shape: typeof Shape;
-  Rect: typeof Rect;
-  Circle: typeof Circle;
-  RoundedRect: typeof RoundedRect;
-  ArrowPath: typeof ArrowPath;
-  Ellipse: typeof Ellipse;
-  Polygon: typeof Polygon;
-  Sector: typeof Sector;
-  EquilateralPolygon: typeof EquilateralPolygon;
-  loadImage: typeof utils.loadImage;
-};
-
-export type {
-  Render,
-  Stage,
-  Group,
-  Bitmap,
-  Text,
-  Graphics,
-  Shape,
-  Rect,
-  Circle,
-  RoundedRect,
-  ArrowPath,
-  Ellipse,
-  Polygon,
-  Sector,
-  EquilateralPolygon,
-  Event
+    Render: typeof Render;
+    Stage: typeof Stage;
+    Group: typeof Group;
+    Bitmap: typeof Bitmap;
+    Text: typeof Text;
+    Graphics: typeof Graphics;
+    Shape: typeof Shape;
+    Rect: typeof Rect;
+    Circle: typeof Circle;
+    RoundedRect: typeof RoundedRect;
+    ArrowPath: typeof ArrowPath;
+    Ellipse: typeof Ellipse;
+    Polygon: typeof Polygon;
+    Sector: typeof Sector;
+    EquilateralPolygon: typeof EquilateralPolygon;
+    loadImage: typeof utils.loadImage;
 };
 export default cax;
+export type { Render, Stage, Group, Bitmap, Text, Graphics, Shape, Rect, Circle, RoundedRect, ArrowPath, Ellipse, Polygon, Sector, EquilateralPolygon, ScriptEvent };
