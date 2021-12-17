@@ -9,6 +9,7 @@ export interface ScriptEvent {
   stageY: number;
   dx: number;
   dy: number;
+  zoom: number;
   type: string;
   bubbles: boolean;
   originalEvent: any;
@@ -22,6 +23,7 @@ export default class Event implements ScriptEvent {
   stageY!: number;
   dx!: number;
   dy!: number;
+  zoom!: number;
   [_type]: string;
   [_bubbles]: boolean;
   [_originalEvent]: any;

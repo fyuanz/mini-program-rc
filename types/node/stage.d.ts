@@ -12,6 +12,15 @@ declare class Stage extends Group {
     hitCtx: any;
     touchObject: any;
     ___instanceof: string;
+    pinchStartDistance: number;
+    startPos1: {
+        x: number;
+        y: number;
+    };
+    startPos2: {
+        x: number;
+        y: number;
+    };
     constructor(container: any, width: number, height: number);
     update(): void;
     setHitCanvas(hitCanvas: any): void;

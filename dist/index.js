@@ -1383,7 +1383,7 @@ class Node {
     }
     setBounds(x, y, width, height) {
         if (x === null) {
-            this._bounds = x;
+            this._bounds = null;
             return;
         }
         this._bounds = (this._bounds || new rectangle_1.default()).setValues(x, y, width, height);
@@ -2027,6 +2027,9 @@ class Stage extends group_1.default {
         this.hitCtx = null;
         this.touchObject = null;
         this.___instanceof = 'Stage';
+        this.pinchStartDistance = 0;
+        this.startPos1 = { x: 0, y: 0 };
+        this.startPos2 = { x: 0, y: 0 };
     }
     update() {
         this.render.update(this);
@@ -2056,6 +2059,7 @@ class Stage extends group_1.default {
     }
     touchStartHandler(evt) {
         const p1 = evt.touches[0];
+        const touchesLength = evt.touches.length;
         evt.stageX = Math.round(p1.x);
         evt.stageY = Math.round(p1.y);
         let obj = this.getObjectUnderPoint(evt);
@@ -2064,6 +2068,12 @@ class Stage extends group_1.default {
         this._mouseDownY = evt.stageY;
         this.preStageX = evt.stageX;
         this.preStageY = evt.stageY;
+        if (obj && touchesLength === 2) {
+            const p2 = evt.touches[1];
+            this.pinchStartDistance = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+            this.startPos1 = p1;
+            this.startPos2 = p2;
+        }
         this.__dispatchEvent(obj, evt);
     }
     touchMoveHandler(evt) {
@@ -2082,6 +2092,24 @@ class Stage extends group_1.default {
             this.preStageX = mockEvt.stageX;
             this.preStageY = mockEvt.stageY;
             this.touchObject.dispatchEvent(mockEvt);
+        }
+        if (this.touchObject && touchesLength === 2) {
+            const p2 = evt.touches[1];
+            if (this.pinchStartDistance > 0) {
+                const distance = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+                const deltaX1 = p1.x - this.startPos1.x;
+                const deltaY1 = p1.y - this.startPos1.y;
+                const deltaX2 = p2.x - this.startPos2.x;
+                const deltaY2 = p2.y - this.startPos2.y;
+                mockEvt.type = 'pinch';
+                mockEvt.zoom = parseFloat((distance / this.pinchStartDistance).toFixed(2));
+                mockEvt.dx = Math.round((deltaX1 + deltaX2) / 2);
+                mockEvt.dy = Math.round((deltaY1 + deltaY2) / 2);
+                this.pinchStartDistance = distance;
+                this.startPos1 = p1;
+                this.startPos2 = p2;
+                this.touchObject.dispatchEvent(mockEvt);
+            }
         }
         this.__dispatchEvent(this.touchObject, evt);
     }

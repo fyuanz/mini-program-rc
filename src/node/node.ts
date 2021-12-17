@@ -191,7 +191,7 @@ export default class Node {
 
   setBounds(x: number | null, y: number, width: number, height: number) {
     if (x === null) {
-      this._bounds = x;
+      this._bounds = null;
       return;
     }
     this._bounds = (this._bounds || new Rectangle()).setValues(x, y, width, height);
